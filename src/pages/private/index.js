@@ -1,0 +1,6 @@
+export {default as AdminHome} from './AdminHome'
+export {default as Dashboard} from './Dashboard'
+export {default as ManageUser} from './ManageUser'
+export {default as ManageBill} from './ManageBill'
+export {default as ManageProduct} from './ManageProduct'
+export {default as CreateProduct} from './CreateProduct'

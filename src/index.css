@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+button.slick-arrow.slick-prev{
+    height: 40px;
+    width: 40px;
+    left: 0px;
+    z-index: 10;
+    background: #ffffff97;
+    backdrop-filter: blur(10px);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button.slick-arrow.slick-next{
+    height: 40px;
+    width: 40px;
+    background: #ffffff97;
+    backdrop-filter: blur(10px);
+    border-radius: 100%;
+    right: 0px;
+    z-index: 10;
+}
+
+.slick-arrow::before{
+    color: rgb(91, 188, 255);
+    font-size: 25px;
+    inset: 0;
+    top: 5px;
+    position: absolute;
+}
+
+.slick-arrow.slick-prev::before{
+    content: '\276E';
+}
+
+.slick-arrow.slick-next::before{
+    content: '\276F';
+}
+
+.Toastify__toast--success {
+    color: #5bbcff;
+}
+
+.Toastify__progress-bar--success{
+    background-color: #5bbcff;
+}
+
+.Toastify__close-button:hover,
+.Toastify__close-button:focus{
+    color: red;
+}
