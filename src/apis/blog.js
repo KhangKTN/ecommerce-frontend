@@ -22,3 +22,14 @@ export const updateBlog = (data) => axios({
     method: 'put',
     data
 })
+
+export const likeOrDislikeBlog = (data) => axios({
+    url: '/blog/like',
+    method: 'put',
+    data
+})
+
+export const updateView = (blogId) => axios({
+    url: '/blog/view/' + blogId,
+    method: 'put'
+})

@@ -16,7 +16,6 @@ const BlogList = () => {
     const fetchBlogList = async() => {
         const res = await getBlogList({category, search: searchParams.get('s')})
         if(res.success) setCount(res.data.length)
-        console.log(res);
         setTimeout(() => {
             if(res?.success){
                 setBlogList(res.data)

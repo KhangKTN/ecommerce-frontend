@@ -39,7 +39,7 @@ const PersonalInfo = () => {
 
     const submitForm = async(data) => {
         if(avatar) data['avatar'] = avatar
-        data['address'] = listAddress.reduce((list, item) => item.trim().length > 0 ? [...list, item.replaceAll(',', '&')] : list, [])
+        data['address'] = listAddress.reduce((list, item) => item.trim().length > 0 ? [...list, item.replaceAll(',', '_')] : list, [])
         const form = new FormData()
         Object.entries(data).forEach(([key, value]) => {form.append(key, value)})
         setIsLoading(true)

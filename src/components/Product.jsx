@@ -39,7 +39,7 @@ const Product = ({product, showInfo, logo}) => {
                 <div className='h-[243px] relative hover:cursor-pointer'>
                     <img className='h-full w-full object-contain' src={product?.thumbnail} alt=""/>
                     { 
-                        <div className={'absolute z-10 top-0 right-0 left-0 flex flex-col gap-x-3 ' + (isHover ? 'animate-slide-in-bottom' : 'animate-slide-to-bottom') + (showInfo ? ' bg-[#ffffff8c] opacity-50 backdrop-blur-md flex-col bottom-0 justify-between' : ' items-end -bottom-[10px] justify-end')}>
+                        <div className={'absolute z-10 top-0 right-0 left-0 flex gap-x-3 ' + (isHover ? 'animate-slide-in-bottom' : 'animate-slide-to-bottom') + (showInfo ? ' bg-[#ffffff8c] opacity-50 backdrop-blur-md flex-col bottom-0 justify-between' : ' items-end -bottom-[10px] justify-end')}>
                             {showInfo && 
                             <>
                                 <div className='border-b-[1px] py-2'>

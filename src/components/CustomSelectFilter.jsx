@@ -52,30 +52,12 @@ const CustomSelectFilter = ({name, dataList, setPage, activeClick, changeActiveF
         if(!isLoadFirst){
             setPage(0)
             const queries = getObjectSearchParam(searchParam.entries())
-            // Code new
             if(selected.length === 0) delete queries[name]
             else queries[name] = type === 'option' ? selected : selected.join(',')
             navigate({
                 pathname: `${location.pathname}`,
                 search: createSearchParams({...queries}).toString()
             })
-            /* if(selected.length === 0){
-                if(type === 'option') delete queries['sort']
-                else delete queries[name]
-                navigate({
-                    pathname: `${location.pathname}`,
-                    search: createSearchParams({...queries}).toString()
-                })
-            }
-            else{
-                navigate({
-                    pathname: `${location.pathname}`,
-                    search: createSearchParams({
-                        ...queries,
-                        [name]: type === 'option' ? selected : selected.join(',')
-                    }).toString()
-                })
-            } */
         }
     }, [selected])
 

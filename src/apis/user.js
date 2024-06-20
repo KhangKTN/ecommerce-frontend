@@ -54,9 +54,10 @@ export const updateUserByAdmin = (data) => axios({
     data
 })
 
-export const getCart = (data) => axios({
+export const getCart = (params) => axios({
     url: 'user/cart',
-    method: 'get'
+    method: 'get',
+    params
 })
 
 export const addCart = (data) => axios({
@@ -74,4 +75,16 @@ export const updateCart = (data) => axios({
 export const addWishList = (productId) => axios({
     url: `user/wishList/${productId}`,
     method: 'put'
+})
+
+export const addAddress = (data) => axios({
+    url: `user/addAddress`,
+    method: 'put',
+    data
+})
+
+export const updateAddress = (data) => axios({
+    url: `user/updateAddress`,
+    method: 'put',
+    data
 })

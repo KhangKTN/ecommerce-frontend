@@ -40,7 +40,7 @@ const UpdateProduct = ({title, setShowModal, product, handleRefresh}) => {
     }, [])
 
     const onSubmit = async(data) => {
-        data['description'] = listAttribute.reduce((list, item) => item.data.length !== 0 ? [...list, item.data] : list, [])
+        data['description'] = listAttribute.reduce((list, item) => item.data.length !== 0 ? [...list, item.data.replaceAll(',', '_')] : list, [])
         data['thumbnail'] = thumbnail
         const form = new FormData()
         Object.entries(data).forEach(([key, value]) => value && form.append(key, value))

@@ -29,7 +29,8 @@ const path = {
     ACCOUNT: 'account',
     PROFILE: 'profile',
     CART: 'cart',
-    SECURITY: 'change-password'
+    SECURITY: 'change-password',
+    CHECKOUT: 'checkout'
 }
 
 export default path
