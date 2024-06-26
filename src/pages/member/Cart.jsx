@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { getCart, updateCart } from '../../apis'
 import { getFormatVND } from '../../utils/helpers'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Tippy from '@tippyjs/react'
 import CartItem from '../../components/CartItem'
 import path from '../../utils/path'
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { getCurrentUser } from '../../app/asyncActionUser'
 
 const Cart = () => {
+    const dispatcher = useDispatch()
+
     const [cart, setCart] = useState(null)
     const [selected, setSelected] = useState([])
+    const navigate = useNavigate()
     let totalPrice = 0
 
     const fetchCartData = async() => {
@@ -28,7 +34,6 @@ const Cart = () => {
         if(copyCart[index].variant){
             const variantList = copyCart[index].product.variant
             productQuantity = variantList.find(item => item._id === copyCart[index].variant).quantity
-            console.log(productQuantity);
         }
         if(value === 'remove'){
             copyCart = copyCart?.filter(item => item._id !== _id)
@@ -45,6 +50,7 @@ const Cart = () => {
         }
         setCart(copyCart)
         const res = await updateCart(copyCart)
+        dispatcher(getCurrentUser())
     }
 
     useEffect(() => {
@@ -62,6 +68,11 @@ const Cart = () => {
         }else{
             setSelected(prev => [...prev, id])
         }
+    }
+
+    const handleCheckout = () => {
+        if(selected.length <= 0) toast.error('Please choose least 1 product!')
+        else navigate(`/${path.CHECKOUT}?item=${selected.join('.')}`)
     }
 
     return (
@@ -98,9 +109,9 @@ const Cart = () => {
                     </div>
                     <div className='absolute flex items-center gap-x-5 text-white text-xl font-bold bottom-0 right-0'>
                         <div className='text-main'>Total: {getFormatVND(totalPrice)}</div>
-                        <Link to={`/${path.CHECKOUT}?item=${selected.join('.')}`} >
-                            <button className='px-5 py-3 rounded-md bg-main'>Buy now</button>
-                        </Link>
+                        <div>
+                            <button onClick={() => handleCheckout()} className='px-5 py-3 rounded-md bg-main'>Check out</button>
+                        </div>
                     </div>
                 </>
             }

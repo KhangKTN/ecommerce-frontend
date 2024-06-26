@@ -19,6 +19,8 @@ import { linkBlog } from './utils/contants';
 import BlogList from './components/BlogList';
 import ManageBlog from './pages/private/ManageBlog';
 import Checkout from './pages/member/Checkout';
+import Order from './pages/member/Order';
+import OrderDetail from './pages/member/OrderDetail';
 
 function App() {
   const dispatch = useDispatch()
@@ -48,9 +50,11 @@ function App() {
           <Route path={path.FAQ} element={<Faq/>}/>
           <Route path={path.PRODUCTS} element={<Products/>}/>
           <Route path={path.CHECKOUT} element={<Checkout/>}/>
+          <Route path={path.ORDER_DETAIL} element={<OrderDetail/>}/>
           <Route path={path.ACCOUNT} element={<Account/>}>
             <Route path={path.PROFILE} element={<PersonalInfo/>}/>
             <Route path={path.CART} element={<Cart/>}/>
+            <Route path={path.ORDER} element={<Order/>}/>
             <Route path={path.SECURITY} element={<ChangePassword/>}/>
           </Route>
         </Route>

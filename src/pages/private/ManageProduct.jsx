@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import TitleText from '../../components/style/TitleText'
 import { deleteProduct, getBrandList, getProducts } from '../../apis'
 import CustomSelectFilter from '../../components/CustomSelectFilter';
-import { colors, ratings } from '../../utils/contants';
+import { colors, ratings, sortList } from '../../utils/contants';
 import path from '../../utils/path';
 import { getFormatVND, getObjectSearchParam } from '../../utils/helpers';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
@@ -143,7 +143,7 @@ const ManageProduct = () => {
                     <CustomSelectFilter name='brand' dataList={brandList} setPage={setPage} activeClick={activeFilter} changeActiveFilter={setActiveFilter}/>
                     <CustomSelectFilter name='rating' dataList={ratings} setPage={setPage} activeClick={activeFilter} changeActiveFilter={setActiveFilter}/>
                     <CustomSelectFilter name='Price' activeClick={activeFilter} setPage={setPage} changeActiveFilter={setActiveFilter} type='input'/>
-                    <CustomSelectFilter name='sort' activeClick={activeFilter} setPage={setPage} changeActiveFilter={setActiveFilter} type='option'/>
+                    <CustomSelectFilter name='sort' dataList={sortList} activeClick={activeFilter} setPage={setPage} changeActiveFilter={setActiveFilter} type='option'/>
                 </div>
             </div>
             {/* Table list product */}

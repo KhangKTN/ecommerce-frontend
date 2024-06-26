@@ -1,22 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { addAddress, updateAddress } from '../../apis'
+import { useDispatch } from 'react-redux'
+import { getCurrentUser } from '../../app/asyncActionUser'
 
-const classInput = 'mt-3 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+const classInput = 'mt-2 shadow-sm bg-gray-100 text-gray-900 text-sm rounded-full focus:outline-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
 const classError = 'text-red-500'
 
-const AddAddress = ({setModalAddress, setModalAddAddress, current}) => {
+const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirst}) => {
     const { register, watch, handleSubmit, reset, setValue, formState: { errors } } = useForm()
+    const dispatcher = useDispatch()
+
+    const [checked, setChecked] = useState(current?.isDefault)
 
     const onSubmit = async(data) => {
-        console.log(data);
-        /* let res = null
+        // console.log(data);
+        let res = null
         if(current) res = await updateAddress({...data, _id: current._id})
         else res = await addAddress(data)
-        console.log(res);
+        // console.log(res);
+        dispatcher(getCurrentUser())
         reset()
         setModalAddAddress(false)
-        setModalAddress(true) */
+        setModalAddress(true)
+        setIsLoadFirst(false)
     }
 
     useEffect(() => {
@@ -56,7 +63,7 @@ const AddAddress = ({setModalAddress, setModalAddAddress, current}) => {
                                 {errors.detailAddress && <span className={classError}>{errors.detailAddress.message}</span>}
                             </div>
                             <div className='mt-5 flex w-fit gap-x-3'>
-                                <input type='checkbox' id='isDefault' {...register("isDefault")} />
+                                <input disabled={current?.isDefault} onClick={() => setChecked(!checked)} checked={checked} type='checkbox' id='isDefault' {...register("isDefault")} />
                                 <label htmlFor='isDefault' className='select-none cursor-pointer'>Set as default</label>
                             </div>
                         </div>

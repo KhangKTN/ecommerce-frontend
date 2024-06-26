@@ -9,8 +9,8 @@ const CartItem = ({index, cartItem, handleChangeQuantity, checked, handleChecked
     const getPrice = () => {
         if(cartItem.variant){
             const variantId = cartItem.variant
-            const productVariant = cartItem.product.variant.find(variant => variant._id === variantId)
-            return getFormatVND(productVariant.price)
+            const productVariant = cartItem?.product?.variant?.find(variant => variant._id === variantId)
+            return getFormatVND(productVariant?.price)
         }
         return getFormatVND(cartItem.product.price)
     }
@@ -18,16 +18,16 @@ const CartItem = ({index, cartItem, handleChangeQuantity, checked, handleChecked
     const getSumPrice = () => {
         if(cartItem.variant){
             const variantId = cartItem.variant
-            const productVariant = cartItem.product.variant.find(variant => variant._id === variantId)
-            return getFormatVND(productVariant.price * cartItem.quantity)
+            const productVariant = cartItem?.product?.variant?.find(variant => variant._id === variantId)
+            return getFormatVND(productVariant?.price * cartItem.quantity)
         }
         return getFormatVND(cartItem.product.price * cartItem.quantity)
     }
 
     useEffect(() => {
         const variantList = cartItem.product.variant
-        if(variantList.length > 1 && cartItem.variant){
-            const quantity = variantList.find(item => item._id === cartItem.variant).quantity
+        if(variantList?.length > 1 && cartItem.variant){
+            const quantity = variantList?.find(item => item._id === cartItem.variant).quantity
             setQtyAvailable(quantity)
         }
     }, [])
@@ -35,12 +35,12 @@ const CartItem = ({index, cartItem, handleChangeQuantity, checked, handleChecked
     return (
         <div className='flex items-center gap-x-3 border-b-[1px] py-2'>
             <div className={`flex items-center ${isEdit ? 'min-w-[40%]' : 'min-w-[50%]'}`}>
-                <span onClick={() => handleChecked(cartItem._id)} className='text-main cursor-pointer text-lg'><i className={`fa-regular ${checked ? 'fa-square-check' : 'fa-square'}`}></i></span>
-                <Link className='flex items-center gap-x-3' to={`/${cartItem.product.category.toLowerCase()}/${cartItem.product._id}/${cartItem.product.slug}`}>
+                {isEdit && <span onClick={() => handleChecked(cartItem._id)} className='text-main cursor-pointer text-lg'><i className={`${checked ? 'fa-solid fa-square-check' : 'fa-regular fa-square'}`}></i></span>}
+                <Link className='flex items-center gap-x-3' to={`/${cartItem?.product?.category?.toLowerCase()}/${cartItem.product._id}/${cartItem.product.slug}`}>
                     <img className='w-10 h-[60px] object-contain' src={cartItem.product.thumbnail} alt="" />
                     <div className='flex flex-col'>
                         <span className='hover:text-main font-semibold'>{cartItem.product.name}</span>
-                        {cartItem?.variant && <span className='text-gray-500 italic font-medium'>{cartItem.product.variant.reduce((value, variant) => variant._id === cartItem.variant ? `${variant.variantType}: ${variant.name}` : value, '')}</span>}
+                        {cartItem?.variant && <span className='text-gray-500 italic font-medium'>{cartItem?.product?.variant?.reduce((value, variant) => variant._id === cartItem.variant ? `${variant.variantType}: ${variant.name}` : value, '')}</span>}
                     </div>
                 </Link>
             </div>

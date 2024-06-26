@@ -109,7 +109,7 @@ const CustomSelectFilter = ({name, dataList, setPage, activeClick, changeActiveF
                     <>
                         <div className='p-4 text-gray-500 flex items-center justify-between font-semibold gap-x-8'>
                             <span className='whitespace-nowrap'>{selected?.length} selected</span>
-                            <span onClick={() => setPrice({minPrice: '', maxPrice: ''})} className=' hover:text-red-500 cursor-pointer'>Reset</span>
+                            <span onClick={() => setPrice({minPrice: '', maxPrice: ''})} className='hover:text-red-500 cursor-pointer'>Reset</span>
                         </div>
                         <div className='flex gap-x-5 px-5 py-3 min-w-[500px]' onClick={e => e.stopPropagation()}>
                             <InputFields name='minPrice' type='text' value={price} setValue={setPrice} invalid={invalid} setInvalid={setInvalid} autoFocus={true} placeHolder='Min Price'/>
@@ -119,14 +119,14 @@ const CustomSelectFilter = ({name, dataList, setPage, activeClick, changeActiveF
                     }
                     {type === 'option' && 
                         <>
-                        <ul className='p-2 text-gray-500 text-nowrap shadow-lg'>
-                            {sortList?.map(item => (
-                                <li onClick={() => {setSelected(item.value); setIsLoadFirst(0)}} key={item.key} className='py-2 px-3 rounded hover:bg-main hover:text-white group'>
-                                    <span className='min-w-[150px] inline-block'>{item.text}</span> 
-                                    {selected === item.value && <i className="fa-solid fa-check mr-2 font-extrabold text-main group-hover:text-white"></i>}
-                                </li>
-                            ))}
-                        </ul>
+                            <ul className='p-2 text-gray-500 text-nowrap shadow-lg'>
+                                {dataList?.map(item => (
+                                    <li onClick={() => {setSelected(item.key); setIsLoadFirst(0)}} key={item.key} className='py-2 px-3 rounded hover:bg-main hover:text-white group'>
+                                        <span className='min-w-[150px] inline-block'>{item.value}</span> 
+                                        {selected === item.key && <i className="fa-solid fa-check mr-2 font-extrabold text-main group-hover:text-white"></i>}
+                                    </li>
+                                ))}
+                            </ul>
                         </>
                     }
                 </div>

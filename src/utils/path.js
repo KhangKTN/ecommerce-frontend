@@ -29,6 +29,8 @@ const path = {
     ACCOUNT: 'account',
     PROFILE: 'profile',
     CART: 'cart',
+    ORDER: 'order',
+    ORDER_DETAIL: 'order-detail/:id',
     SECURITY: 'change-password',
     CHECKOUT: 'checkout'
 }

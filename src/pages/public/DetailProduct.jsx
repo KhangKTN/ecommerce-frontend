@@ -14,6 +14,8 @@ import CustomSlider from '../../components/CustomSlider'
 import SkeletonDetailProduct from '../../components/skeleton/SkeletonDetailProduct'
 import { toast } from 'react-toastify'
 import { addCart } from '../../apis'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCurrentUser } from '../../app/asyncActionUser'
 
 let settings = {
     dots: false,
@@ -26,6 +28,8 @@ let settings = {
 }
 
 const DetailProduct = () => {
+    const dispatcher = useDispatch()
+
     const [product, setProduct] = useState(null)
     const [favouriteProd, setFavouriteProd] = useState(null)
     const [quantity, setQuantity] = useState(1)
@@ -34,7 +38,7 @@ const DetailProduct = () => {
     const {category, id, name} = useParams()
     const [variantSelected, setVariantSelected] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
-    // const [settings, setSettings] = useState({...settingsDefault})
+    const [isHover, setIsHover] = useState(false)
 
     const [thumbnail, setThumbnail] = useState(null)
     const [price, setPrice] = useState(0)
@@ -73,7 +77,6 @@ const DetailProduct = () => {
     useEffect(() => {
         product && setProduct(null)
         if(id) fetchProductDetail(id)
-        const body = document.querySelector('#root');
         window.scrollTo({
             top: 200,
             behavior: "auto",
@@ -89,15 +92,16 @@ const DetailProduct = () => {
             toast.error('Please choose 1 option')
             return
         }
-        // console.log(variantSelected);
         const res = await addCart({product: product?._id, quantity, variant: variantSelected})
         toast.success('Add to cart succeed!')
+        dispatcher(getCurrentUser())
     }
 
     const handleSelectVariant = (variant) => {
         setVariantSelected(variant._id) 
         setPrice(getFormatVND(variant.price))
         setQtyAvailable(variant.quantity)
+        setQuantity(1)
     }
 
     const handleChangeQuantity = async(value) => {
@@ -112,7 +116,6 @@ const DetailProduct = () => {
             else setQuantity(value)
         }
     }
-    
 
     return (
         <div className='mt-5'>
@@ -126,7 +129,7 @@ const DetailProduct = () => {
                 {/* Product detail information */}
                 <div className='flex gap-x-10'>
                     {/* Thumbnail and all image of product */}
-                    <div className=' w-[460px]'>
+                    <div className='w-[460px]'>
                         <img className='w-[460px] h-[460px] border object-contain' src={thumbnail} alt="" />
                         {/* <ReactImageMagnify {...{
                             smallImage: {
@@ -179,10 +182,10 @@ const DetailProduct = () => {
                             <h1>Color:</h1>
                             <div className='grid grid-cols-5 gap-x-3'>
                             {product?.variant.map(item => (
-                                <div onMouseEnter={() => setThumbnail(item.thumbnail)} onClick={() => handleSelectVariant(item)} className={`flex items-center justify-center cursor-pointer gap-x-3 p-2 border-[1px] ${variantSelected === item._id ? 'border-main' : 'border-gray-300'}`} key={item._id}>
-                                    <img className='h-8 w-5 object-contain' src={item.thumbnail} alt="" />
+                                <button onMouseEnter={() => setThumbnail(item.thumbnail)} onClick={() => handleSelectVariant(item)} className={`flex items-center justify-center cursor-pointer gap-x-3 p-2 border-[1px] ${variantSelected === item._id ? 'border-main' : 'border-gray-300'}`} key={item._id}>
+                                    <img className='h-10 w-8 object-contain' src={item.thumbnail} alt="" />
                                     <span>{item.name}</span>
-                                </div>
+                                </button>
                             ))}
                             </div>
                         </div>
@@ -200,8 +203,8 @@ const DetailProduct = () => {
                             <h1>{qtyAvailable} product is available</h1>
                         </div>
                         <div className='flex gap-x-3'>
-                            <button onClick={() => handleAddCart()} className='p-3 w-full text-white capitalize font-bold bg-main rounded-md mt-3 hover:text-main text-lg border-2 border-[#5bbcff] hover:bg-white transition-all duration-500'>Add to cart</button>
-                            <button className='p-3 w-full text-white capitalize font-bold bg-main rounded-md mt-3 hover:text-main text-lg border-2 border-[#5bbcff] hover:bg-white transition-all duration-500'>Buy now</button>
+                            <button onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} onClick={() => handleAddCart()} className='p-3 w-full max-w-[250px] text-white capitalize font-bold bg-main rounded-md mt-3 hover:text-main text-lg border-2 border-[#5bbcff] hover:bg-white transition-all duration-500'><i className={`fa-solid fa-cart-plus mr-3 ${isHover && 'animate-shake-horizontal'}`}></i>Add to cart</button>
+                            <button className='p-3 w-full max-w-[250px] text-white capitalize font-bold bg-main rounded-md mt-3 hover:text-main text-lg border-2 border-[#5bbcff] hover:bg-white transition-all duration-500'><i className="fa-solid fa-money-bill-wave mr-3"></i>Buy now</button>
                         </div>
                     </div>
                 </div>

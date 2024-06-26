@@ -61,19 +61,33 @@ export const ratings = [
 ]
 
 export const sortList = [
-    {key: 'sort', value: '', text: 'Default'},
-    {key: 'sort1', value: 'price', text: 'Price ascending'},
-    {key: 'sort2', value: '-price', text: 'Price descending'},
-    {key: 'sort3', value: 'name', text: 'Name A - Z'},
-    {key: 'sort4', value: '-name', text: 'Name Z - A'},
-    {key: 'sort5', value: '-createdAt', text: 'Latest'},
-    {key: 'sort6', value: 'createdAt', text: 'Oldest'},
-    {key: 'sort7', value: '-sold', text: 'Best Seller'}
+    {key: '', value: 'Default'},
+    {key: 'price', value: 'Price ascending'},
+    {key: '-price', value: 'Price descending'},
+    {key: 'name', value: 'Name A - Z'},
+    {key: '-name', value: 'Name Z - A'},
+    {key: '-createdAt', value: 'Latest'},
+    {key: 'createdAt', value: 'Oldest'},
+    {key: '-sold', value: 'Best Seller'}
 ]
 
 export const memberNavLink = [
     {id: 1, text: 'Cart', path: `/${path.ACCOUNT}/${path.CART}`, icon: <i className="fa-solid fa-cart-shopping mr-3"></i>},
     {id: 2, text: 'Profile', path: `/${path.ACCOUNT}/${path.PROFILE}`, icon: <i className="fa-solid fa-circle-info mr-3"></i>},
+    {id: 4, text: 'Orders', path: `/${path.ACCOUNT}/${path.ORDER}`, icon: <i className="fa-solid fa-shield mr-3"></i>},
     {id: 3, text: 'Security', path: `/${path.ACCOUNT}/${path.SECURITY}`, icon: <i className="fa-solid fa-shield mr-3"></i>}
+]
+
+export const paymentMethod = [
+    {id: 'payment_1', value: 'cod', text: 'COD', description: 'You will pay when you receive the product'},
+    {id: 'payment_2', value: 'paypal', text: 'Paypal', description: 'You will pay immediately after pressing the Order Now button through the Paypal service'}
+]
+
+export const orderStatus = [
+    {id: '1', key: 'Processing', value: 'Processing'},
+    {id: '2', key: 'Accept', value: 'Accept'},
+    {id: '3', key: 'Shipping', value: 'Shipping'},
+    {id: '4', key: 'Finish', value: 'Finish'},
+    {id: '5', key: 'Cancel', value: 'Cancel'}
 ]
 

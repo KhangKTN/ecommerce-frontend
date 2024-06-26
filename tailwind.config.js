@@ -111,6 +111,51 @@ module.exports = {
             'filter': 'blur(0)',
             'opacity': '1'
           }
+        },
+        'wobble-hor-bottom': {
+          '0%, 100%': {
+            '-webkit-transform': 'translateX(0%)',
+                    'transform': 'translateX(0%)',
+            '-webkit-transform-origin': '50% 50%',
+                    'transform-origin': '50% 50%'
+          },
+          '15%': {
+            '-webkit-transform': 'translateX(-30px) rotate(-6deg)',
+                    'transform': 'translateX(-30px) rotate(-6deg)'
+          },
+          '30%': {
+            '-webkit-transform': 'translateX(15px) rotate(6deg)',
+                    'transform': 'translateX(15px) rotate(6deg)'
+          },
+          '45%': {
+            '-webkit-transform': 'translateX(-15px) rotate(-3.6deg)',
+                    'transform': 'translateX(-15px) rotate(-3.6deg)'
+          },
+          '60%': {
+            '-webkit-transform': 'translateX(9px) rotate(2.4deg)',
+                    'transform': 'translateX(9px) rotate(2.4deg)'
+          },
+          '75%': {
+            '-webkit-transform': 'translateX(-6px) rotate(-1.2deg)',
+                    'transform': 'translateX(-6px) rotate(-1.2deg)'
+          }
+        },
+        'shake-horizontal': {
+          '0%, 100%': {
+            'transform': 'translateX(0)'
+          },
+          '10%, 30%, 50%, 70%': {
+            'transform': 'translateX(-5px)'
+          },
+          '20%, 40%, 60%': {
+            'transform': 'translateX(5px)'
+          },
+          '80%': {
+            'transform': 'translateX(2px)'
+          },
+          '90%': {
+            'transform': 'translateX(-2px)'
+          }
         }
       },
       animation: {
@@ -122,7 +167,9 @@ module.exports = {
         'countdown-animation': 'countdown 10s linear forwards',
         'fade-in-fwd': 'fade-in-fwd 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both',
         'blink': 'blink .5s 5',
-        'slide-in-blurred-top': 'slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both'
+        'slide-in-blurred-top': 'slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both',
+        'wobble-hor-bottom': 'wobble-hor-bottom 0.8s both',
+        'shake-horizontal': 'shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both'
       }
   },
   plugins: [],
