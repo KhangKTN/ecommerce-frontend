@@ -11,7 +11,7 @@ import AddAddress from '../../components/modal/AddAddress'
 import { useSelector } from 'react-redux'
 import { paymentMethod } from '../../utils/contants'
 import Paypal from '../../components/payment/Paypal'
-import { createOrder } from '../../apis/order'
+import { createOrder, createOrderVnpay } from '../../apis/order'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 
@@ -34,6 +34,7 @@ const Checkout = () => {
 
     const fetchDataCart = async() => {
         const res = await getCart({item: searchParams.get('item')?.trim()})
+        console.log(res);
         if(res.success){
             setCart(res.data.cart)
         }
@@ -55,15 +56,18 @@ const Checkout = () => {
                 showCancelButton: true,
                 cancelButtonText: 'Go back home',
                 reverseButtons: true
-                /* didClose: () => {
-                    navigate(`/order-detail/${res.data._id}`)
-                } */
             }).then(result => {
                 console.log(result);
                 if(result.isConfirmed) navigate(`/order-detail/${res.data._id}`)
                 else if(result.isDismissed) navigate(`/${path.HOME}`)
             })
         }
+    }
+
+    const handleVnpay = async() => {
+        const res = await createOrderVnpay({products: cart, totalPrice, address})
+        console.log(res);
+        if(res) window.location.href = res?.paymentUrl
     }
 
     return (
@@ -123,10 +127,10 @@ const Checkout = () => {
                         <span className='italic text-red-400'>{paymentMethod[paymentMethod.findIndex(item => item.value === payment)].description}</span>
                     </div>
                     <div className='mt-5 w-auto flex justify-center'>
-                        {payment === 'cod' ?
-                            <button onClick={() => handleCreateOrder()} className='px-4 py-3 bg-main text-white rounded-md text-lg'>Order Now</button>
-                        :
+                        {payment === 'paypal' ?
                             <Paypal amount={100} orderData={{products: cart, totalPrice, address}}/>
+                        :
+                            <button onClick={() => {payment === 'cod' ? handleCreateOrder() : handleVnpay()}} className='px-4 py-3 bg-main text-white rounded-md text-lg'>Order Now</button>
                         }
                     </div>
                     {modalAddress && <AddressList address={address} setAddress={setAddress} isLoadFirst={isLoadFirst} setCurrentEdit={setCurrentEdit} setModalAddress={setModalAddress} setModalAddAddress={setModalAddAddress} setModalUpdateAddress={setModalUpdateAddress}/>}

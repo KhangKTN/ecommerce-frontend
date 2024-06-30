@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactPaginate from 'react-paginate';
 
-const Pagination = ({page, maxPage, setPage, setIsLoadFirst}) => {
+const Pagination = ({page, maxPage, setPage, setIsLoadFirst = () => {}}) => {
     return (
         <div>
             <ReactPaginate

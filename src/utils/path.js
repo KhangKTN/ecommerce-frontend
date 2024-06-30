@@ -32,7 +32,8 @@ const path = {
     ORDER: 'order',
     ORDER_DETAIL: 'order-detail/:id',
     SECURITY: 'change-password',
-    CHECKOUT: 'checkout'
+    CHECKOUT: 'checkout',
+    PAID_FINISH: 'vnpay-return'
 }
 
 export default path

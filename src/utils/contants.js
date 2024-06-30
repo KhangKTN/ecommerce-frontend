@@ -80,7 +80,8 @@ export const memberNavLink = [
 
 export const paymentMethod = [
     {id: 'payment_1', value: 'cod', text: 'COD', description: 'You will pay when you receive the product'},
-    {id: 'payment_2', value: 'paypal', text: 'Paypal', description: 'You will pay immediately after pressing the Order Now button through the Paypal service'}
+    {id: 'payment_2', value: 'paypal', text: 'Paypal', description: 'You will pay immediately after pressing the Order Now button through the Paypal service'},
+    {id: 'payment_3', value: 'vnpay', text: 'VNPay', description: 'You will pay immediately after pressing the Order Now button through the VNPay service'}
 ]
 
 export const orderStatus = [
@@ -89,5 +90,12 @@ export const orderStatus = [
     {id: '3', key: 'Shipping', value: 'Shipping'},
     {id: '4', key: 'Finish', value: 'Finish'},
     {id: '5', key: 'Cancel', value: 'Cancel'}
+]
+
+export const sortBill = [
+    {key: '-createdAt', value: 'Order Latest'},
+    {key: 'createdAt', value: 'Order Oldest'},
+    {key: 'totalPrice', value: 'Price ASC'},
+    {key: '-totalPrice', value: 'Price DESC'}
 ]
 

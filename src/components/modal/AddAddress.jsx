@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { addAddress, updateAddress } from '../../apis'
 import { useDispatch } from 'react-redux'
 import { getCurrentUser } from '../../app/asyncActionUser'
+import {getProvinces, getDistrictsByProvinceCode} from 'vn-local-plus'
 
 const classInput = 'mt-2 shadow-sm bg-gray-100 text-gray-900 text-sm rounded-full focus:outline-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
 const classError = 'text-red-500'
@@ -10,6 +11,9 @@ const classError = 'text-red-500'
 const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirst}) => {
     const { register, watch, handleSubmit, reset, setValue, formState: { errors } } = useForm()
     const dispatcher = useDispatch()
+
+    const [provinces, setProvinces] = useState([])
+    const [district, setDistrict] = useState([])
 
     const [checked, setChecked] = useState(current?.isDefault)
 
@@ -27,6 +31,8 @@ const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirs
     }
 
     useEffect(() => {
+        setProvinces(getProvinces())
+        console.log(getProvinces());
         if(current){
             reset({
                 name: current?.name,
@@ -35,6 +41,11 @@ const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirs
             })
         }
     }, [])
+
+    const handleChangeProvince = ({target: {value}}) => {
+        console.log(value);
+        console.log(getDistrictsByProvinceCode(value));
+    }
 
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-[#00000025] backdrop-blur-sm">
@@ -56,6 +67,18 @@ const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirs
                                     <input type='number' placeholder='' className={classInput} {...register("phone", { required: 'This input is required' })} />
                                     {errors.phone && <span className={classError}>{errors.phone.message}</span>}
                                 </div>
+                            </div>
+                            <div className='grid grid-cols-3 gap-x-5'>
+                                <select onChange={(e) => handleChangeProvince(e)} className={classInput} name="" id="">
+                                    {provinces?.map(item => (
+                                        <option value={item.code} key={item.code}>{item.name}</option>
+                                    ))}
+                                </select>
+                                <select className={classInput} name="" id="">
+                                    {/* {provinces?.map(item => (
+                                        <option key={item.code}>{item.name}</option>
+                                    ))} */}
+                                </select>
                             </div>
                             <div className='mt-5'>
                                 <label htmlFor="">Detail Address:</label>

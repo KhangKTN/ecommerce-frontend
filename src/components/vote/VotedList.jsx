@@ -36,8 +36,11 @@ const VotedList = ({voteData, isBorder}) => {
                 <img className='size-12 rounded-full bg-slate-300' src="https://lh5.googleusercontent.com/proxy/b7aE9Mn5FCMO2HDvuyuUFFRONGzX3Cerpp-BiPfPzcoGhJDzpHc7DNARfVNp-oSZ14Yww9XR_zihJ9WEHrlKIqjqXM8XL9J8RZ8vGhCTYttooJO73nudWbDNqIMuqGFO" alt="" />
                 <div key={voteData?.voteBy?._id} className=''>
                     <h1 className='font-semibold'>{voteData?.voteBy?.firstname}</h1>
-                    <span className='text-sm text-gray-500'>{new Date(voteData?.createdAt).toLocaleString()} ({moment(voteData?.createdAt).fromNow()})</span>
-                    <Rating rating={voteData?.star} />
+                    <span className='text-sm text-gray-500'>
+                        {new Date(voteData?.createdAt).toLocaleString()} ({moment(voteData?.createdAt).fromNow()})
+                        {voteData?.productVariant && <span> | {voteData?.productVariant}</span>}
+                    </span>
+                    <Rating rating={voteData?.star} setStar={() => {}} />
                     <h1 className='mt-3'>{voteData?.comment}</h1>
                     <div className='flex gap-x-3 mt-3'>
                         {voteData?.images?.map((img, index) => (

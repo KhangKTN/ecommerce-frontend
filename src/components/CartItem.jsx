@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { getFormatVND } from '../utils/helpers'
 import Tippy from '@tippyjs/react'
 
-const CartItem = ({index, cartItem, handleChangeQuantity, checked, handleChecked, isEdit}) => {
+const CartItem = ({index, cartItem, handleChangeQuantity, checked, handleChecked, isEdit, isShowRating, setProductComment}) => {
     const [qtyAvailable, setQtyAvailable] = useState(cartItem.product.quantity)
-
+    
     const getPrice = () => {
         if(cartItem.variant){
             const variantId = cartItem.variant
@@ -34,7 +34,7 @@ const CartItem = ({index, cartItem, handleChangeQuantity, checked, handleChecked
 
     return (
         <div className='flex items-center gap-x-3 border-b-[1px] py-2'>
-            <div className={`flex items-center ${isEdit ? 'min-w-[40%]' : 'min-w-[50%]'}`}>
+            <div className={`flex items-center min-w-[40%]`}>
                 {isEdit && <span onClick={() => handleChecked(cartItem._id)} className='text-main cursor-pointer text-lg'><i className={`${checked ? 'fa-solid fa-square-check' : 'fa-regular fa-square'}`}></i></span>}
                 <Link className='flex items-center gap-x-3' to={`/${cartItem?.product?.category?.toLowerCase()}/${cartItem.product._id}/${cartItem.product.slug}`}>
                     <img className='w-10 h-[60px] object-contain' src={cartItem.product.thumbnail} alt="" />
@@ -68,6 +68,13 @@ const CartItem = ({index, cartItem, handleChangeQuantity, checked, handleChecked
                 <div className='min-w-[10%]'>
                     <Tippy className='text-red-500 bg-gray-700' content={<span>Delete</span>}>
                         <button onClick={() => handleChangeQuantity({ index, value: 'remove', _id: cartItem._id })} className={'px-5 py-2 rounded-lg border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white'}><i className="fa-regular fa-trash-can"></i></button>
+                    </Tippy>
+                </div>
+            }
+            {isShowRating &&
+                <div className='min-w-[10%]'>
+                    <Tippy className='text-white bg-gray-700' content={<span>Rating now</span>}>
+                        <button onClick={() => {setProductComment({productId: cartItem?.product?._id, variantId: cartItem?.variant, variant: cartItem?.product?.variant?.reduce((value, variant) => variant._id === cartItem.variant ? `${variant.variantType}: ${variant.name}` : value, '')})}} className={'px-5 py-2 rounded-lg border-2 border-main text-main hover:bg-main hover:text-white'}><i className="fa-solid fa-star"></i></button>
                     </Tippy>
                 </div>
             }

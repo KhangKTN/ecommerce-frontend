@@ -21,6 +21,7 @@ import ManageBlog from './pages/private/ManageBlog';
 import Checkout from './pages/member/Checkout';
 import Order from './pages/member/Order';
 import OrderDetail from './pages/member/OrderDetail';
+import PaidFinish from './pages/member/PaidFinish';
 
 function App() {
   const dispatch = useDispatch()
@@ -51,6 +52,7 @@ function App() {
           <Route path={path.PRODUCTS} element={<Products/>}/>
           <Route path={path.CHECKOUT} element={<Checkout/>}/>
           <Route path={path.ORDER_DETAIL} element={<OrderDetail/>}/>
+          <Route path={path.PAID_FINISH} element={<PaidFinish/>}/>
           <Route path={path.ACCOUNT} element={<Account/>}>
             <Route path={path.PROFILE} element={<PersonalInfo/>}/>
             <Route path={path.CART} element={<Cart/>}/>

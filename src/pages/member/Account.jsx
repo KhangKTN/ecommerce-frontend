@@ -13,7 +13,7 @@ const Account = () => {
 
     useEffect(() => {
         if(!isLoggedIn) navigate(`/${path.HOME}`)
-    }, [])
+    }, [isLoggedIn])
 
     return (
         <div className='flex gap-x-10 min-h-[500px] mt-5'>

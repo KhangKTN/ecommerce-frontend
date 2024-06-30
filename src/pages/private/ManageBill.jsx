@@ -2,19 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { getOrderListAdmin } from '../../apis/order'
 import TitleText from '../../components/style/TitleText'
 import Bill from '../../components/order/Bill'
-import { orderStatus } from '../../utils/contants'
+import { orderStatus, sortBill } from '../../utils/contants'
 import CustomSelectFilter from '../../components/CustomSelectFilter'
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { getObjectSearchParam } from '../../utils/helpers'
 import Pagination from '../../components/pagination/Pagination'
 import path from '../../utils/path'
-
-const sortBill = [
-    {key: '-createdAt', value: 'Order Latest'},
-    {key: 'createdAt', value: 'Order Oldest'},
-    {key: 'totalPrice', value: 'Price ASC'},
-    {key: '-totalPrice', value: 'Price DESC'}
-]
 
 const ManageBill = () => {
     const navigate = useNavigate()
@@ -25,8 +18,9 @@ const ManageBill = () => {
     const [page, setPage] = useState(0)
     const [maxPage, setMaxPage] = useState(0)
 
-    const fetchOrderList = async(query) => {
-        const res = await getOrderListAdmin(query)
+    const fetchOrderList = async() => {
+        const queries = getObjectSearchParam(searchParams)
+        const res = await getOrderListAdmin(queries)
         if(res.success){
             setOrderList(res.data)
             setMaxPage(res.maxPage)
@@ -35,8 +29,7 @@ const ManageBill = () => {
     }
 
     useEffect(() => {
-        const query = getObjectSearchParam(searchParams)
-        fetchOrderList(query)
+        fetchOrderList()
     }, [searchParams])
 
     useEffect(() => {
@@ -58,10 +51,10 @@ const ManageBill = () => {
             </div>
             <div className='grid grid-cols-2 gap-5'>
                 {orderList?.map(bill => (
-                    <Bill key={bill._id} bill={bill} isEdit={true} />
+                    <Bill key={bill._id} bill={bill} isAdmin={true} reloadList={fetchOrderList}/>
                 ))}
             </div>
-            <Pagination page={page} setPage={setPage} maxPage={maxPage} setIsLoadFirst={() => {}} />
+            <Pagination page={page} setPage={setPage} maxPage={maxPage}/>
         </div>
     )
 }

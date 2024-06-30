@@ -50,7 +50,7 @@ const Blog = () => {
                 </div>
                 <div className='flex gap-x-5 justify-center'>
                     {linkBlog.map(item => (
-                        <NavLink to={search.trim().length === 0 ? `/blogs/${item.value}` : `/blogs/${item.value}?s=${search}` } className={({isActive}) => isActive ? actClass : noActClass}>{item.text}</NavLink> 
+                        <NavLink key={item.id} to={search.trim().length === 0 ? `/blogs/${item.value}` : `/blogs/${item.value}?s=${search}` } className={({isActive}) => isActive ? actClass : noActClass}>{item.text}</NavLink> 
                     ))}
                 </div>
             </div>

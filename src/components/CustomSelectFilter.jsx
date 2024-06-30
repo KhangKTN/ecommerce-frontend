@@ -113,7 +113,7 @@ const CustomSelectFilter = ({name, dataList, setPage, activeClick, changeActiveF
                         </div>
                         <div className='flex gap-x-5 px-5 py-3 min-w-[500px]' onClick={e => e.stopPropagation()}>
                             <InputFields name='minPrice' type='text' value={price} setValue={setPrice} invalid={invalid} setInvalid={setInvalid} autoFocus={true} placeHolder='Min Price'/>
-                            <InputFields name='maxPrice' type='text' value={price} setValue={setPrice} invalid={invalid} setInvalid={setInvalid} autoFocus={true} placeHolder='Max Price'/>
+                            <InputFields name='maxPrice' type='text' value={price} setValue={setPrice} invalid={invalid} setInvalid={setInvalid} autoFocus={price?.maxPrice.length === 0 ? false : true} placeHolder='Max Price'/>
                         </div>
                     </>
                     }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ButtonLoading = ({isLoading, text, handleClick, disabled}) => {
+const ButtonLoading = ({isLoading, text, handleClick, disabled = false}) => {
     return (
         <button onClick={handleClick} disabled={isLoading || disabled} className={'flex items-center justify-center text-lg font-semibold gap-x-4 w-fit px-6 py-3 rounded-md text-main border-2 border-main ' + ((isLoading || disabled) && 'opacity-90 ') + (!(isLoading || disabled) && ' hover:bg-main hover:text-white')} type="submit">
             {isLoading &&

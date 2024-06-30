@@ -9,7 +9,8 @@ const InputFields = ({className, name, type, value, setValue, invalid, setInvali
     
     const handleOnchange = (e) => {
         const valueInput = e.target.value
-        setValue(prev => ({...prev, [name]: valueInput}))
+        if(name.toLowerCase().includes('price')) setValue(prev => ({...prev, [name]: valueInput.replace(/[^0-9]/g, "")}))
+        else setValue(prev => ({...prev, [name]: valueInput}))
         setInvalid(prev => ({...prev, [name]: ''}))
        /*  if(valueInput){
             if(name === 'email' && !checkMail(valueInput)){
@@ -30,6 +31,13 @@ const InputFields = ({className, name, type, value, setValue, invalid, setInvali
         } */
     }
 
+    const getValue = () => {
+        if(name.toLowerCase().includes('price')){
+            return value[name] ? parseInt(value[name]).toLocaleString('vi-VN') : ''
+        }
+        return value[name]
+    }
+
     return (
         <div>
             <div className='relative'>
@@ -37,7 +45,7 @@ const InputFields = ({className, name, type, value, setValue, invalid, setInvali
                     autoFocus={autoFocus}
                     onFocus={() => setIsFocus(true)} onBlur={() => {!value[name] && setIsFocus(false)}}
                     className='appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-300 focus:ring-2 focus:ring-sky-300 rounded-lg py-3 px-3 leading-tight focus:outline-none' 
-                    onChange={handleOnchange} value={value[name]} name={name} type={typeInput}
+                    onChange={handleOnchange} value={getValue()} name={name} type={typeInput}
                     id={name}
                 />
                 <label 

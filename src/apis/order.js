@@ -6,9 +6,22 @@ export const createOrder = (data) => axios({
     data
 })
 
-export const getOrderUser = () => axios({
+export const createOrderVnpay = (data) => axios({
+    url: '/order/vnpay',
+    method: 'post',
+    data
+})
+
+export const verifyVnpay = (params) => axios({
+    url: '/order/verifyVnpay',
+    method: 'get',
+    params
+})
+
+export const getOrderUser = (params) => axios({
     url: '/order/user',
-    method: 'get'
+    method: 'get',
+    params
 })
 
 export const getOrderListAdmin = (params) => axios({
@@ -20,4 +33,10 @@ export const getOrderListAdmin = (params) => axios({
 export const getOrderDetail = (id) => axios({
     url: '/order/' + id,
     method: 'get'
+})
+
+export const updateStatusOrder = (orderId, data) => axios({
+    url: '/order/' + orderId,
+    method: 'put',
+    data
 })
