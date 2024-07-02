@@ -74,22 +74,22 @@ export const sortList = [
 export const memberNavLink = [
     {id: 1, text: 'Cart', path: `/${path.ACCOUNT}/${path.CART}`, icon: <i className="fa-solid fa-cart-shopping mr-3"></i>},
     {id: 2, text: 'Profile', path: `/${path.ACCOUNT}/${path.PROFILE}`, icon: <i className="fa-solid fa-circle-info mr-3"></i>},
-    {id: 4, text: 'Orders', path: `/${path.ACCOUNT}/${path.ORDER}`, icon: <i className="fa-solid fa-shield mr-3"></i>},
+    {id: 4, text: 'Orders', path: `/${path.ACCOUNT}/${path.ORDER}`, icon: <i className="fa-solid fa-list-ul mr-3"></i>},
     {id: 3, text: 'Security', path: `/${path.ACCOUNT}/${path.SECURITY}`, icon: <i className="fa-solid fa-shield mr-3"></i>}
 ]
 
 export const paymentMethod = [
-    {id: 'payment_1', value: 'cod', text: 'COD', description: 'You will pay when you receive the product'},
-    {id: 'payment_2', value: 'paypal', text: 'Paypal', description: 'You will pay immediately after pressing the Order Now button through the Paypal service'},
-    {id: 'payment_3', value: 'vnpay', text: 'VNPay', description: 'You will pay immediately after pressing the Order Now button through the VNPay service'}
+    {id: 'payment_1', value: 'cod', icon: 'https://cdn-icons-png.flaticon.com/512/2897/2897855.png', text: 'COD (Cash on delivery)', description: 'You will pay when you receive the product'},
+    {id: 'payment_2', value: 'paypal', icon: 'https://static-00.iconduck.com/assets.00/paypal-icon-2048x547-tu0aql1a.png', text: 'Paypal', description: 'You will pay immediately after pressing the Order Now button through the Paypal service'},
+    {id: 'payment_3', value: 'vnpay', icon: 'https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-VNPAY-QR-1.png', text: 'VNPay', description: 'You will pay immediately after pressing the Order Now button through the VNPay service'}
 ]
 
 export const orderStatus = [
-    {id: '1', key: 'Processing', value: 'Processing'},
-    {id: '2', key: 'Accept', value: 'Accept'},
-    {id: '3', key: 'Shipping', value: 'Shipping'},
-    {id: '4', key: 'Finish', value: 'Finish'},
-    {id: '5', key: 'Cancel', value: 'Cancel'}
+    {id: '1', key: 'Processing', value: 'Processing', icon: <i className="fa-solid fa-spinner mr-2"></i>},
+    {id: '2', key: 'Accept', value: 'Accept', icon: <i className="fa-solid fa-check mr-2"></i>},
+    {id: '3', key: 'Shipping', value: 'Shipping', icon: <i className="fa-solid fa-truck-fast mr-2"></i>},
+    {id: '4', key: 'Finish', value: 'Finish', icon: <i className="fa-solid fa-clipboard-check mr-2"></i>},
+    {id: '5', key: 'Cancel', value: 'Cancel', icon: <i className="fa-solid fa-ban mr-2"></i>}
 ]
 
 export const sortBill = [

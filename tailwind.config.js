@@ -85,7 +85,7 @@ module.exports = {
         },
         'fade-in-fwd': {
           '0%': {
-            'transform': 'translateZ(-80px)',
+            'transform': 'translateZ(-200px)',
             'opacity': '0'
           },
           '100%': {

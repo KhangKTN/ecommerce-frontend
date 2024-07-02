@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import InputFields from "../../components/InputFields"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import path from "../../utils/path"
 import {login} from '../../app/userSlide'
 import { useDispatch, useSelector } from "react-redux"
@@ -11,6 +11,7 @@ const Login = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
+    const [searchParams] = useSearchParams()
     const {isLoggedIn} = useSelector(state => state.user)
 
     const [isShowPw, setIsShowPw] = useState(false)
@@ -18,7 +19,10 @@ const Login = () => {
     const [invalid, setInvalid] = useState({email: '', password: ''})
 
     useEffect(() => {
-        if(isLoggedIn) navigate(`/${path.HOME}`)
+        if(isLoggedIn){
+            const returnUri = searchParams.get('returnUri')
+            navigate(returnUri ? `/${returnUri}` : `/${path.HOME}`)
+        }
     }, [isLoggedIn])
 
     const handleClick = async() => {

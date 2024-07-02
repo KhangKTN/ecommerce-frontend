@@ -1,8 +1,12 @@
 import React from 'react'
 
-const ButtonLoading = ({isLoading, text, handleClick, disabled = false}) => {
+const ButtonLoading = ({isLoading, text, handleClick, disabled = false, className}) => {
     return (
-        <button onClick={handleClick} disabled={isLoading || disabled} className={'flex items-center justify-center text-lg font-semibold gap-x-4 w-fit px-6 py-3 rounded-md text-main border-2 border-main ' + ((isLoading || disabled) && 'opacity-90 ') + (!(isLoading || disabled) && ' hover:bg-main hover:text-white')} type="submit">
+        <button 
+            onClick={handleClick} 
+            disabled={isLoading || disabled} 
+            className={`flex items-center justify-center text-lg font-semibold gap-x-4 w-fit pl-6 pr-5 py-3 rounded-md text-white shadow-lg shadow-sky-500/30 bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-500/80 transition-all duration-300 ${(isLoading || disabled) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gradient-to-bl'}`}
+        >
             {isLoading &&
                 <div role="status">
                     <svg aria-hidden="true" className="size-6 text-white animate-spin dark:text-gray-600 fill-sky-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

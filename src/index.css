@@ -6,7 +6,7 @@
 button.slick-arrow.slick-prev{
     height: 40px;
     width: 40px;
-    left: 0px;
+    left: 12px;
     z-index: 10;
     background: #ffffff97;
     backdrop-filter: blur(10px);
@@ -22,7 +22,7 @@ button.slick-arrow.slick-next{
     background: #ffffff97;
     backdrop-filter: blur(10px);
     border-radius: 100%;
-    right: 0px;
+    right: 12px;
     z-index: 10;
 }
 

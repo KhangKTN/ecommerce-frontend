@@ -1,0 +1,7 @@
+.image-slider > button.slick-arrow.slick-prev{
+    left: -20px;
+}
+
+.image-slider > button.slick-arrow.slick-next{
+    right: -20px;
+}

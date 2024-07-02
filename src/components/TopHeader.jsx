@@ -13,6 +13,7 @@ const TopHeader = () => {
     const dispatch = useDispatch()
     const location = useLocation()
     const {current, isLoggedIn} = useSelector(state => state.user)
+
     const [isShowModal, setIsShowModal] = useState(false)
 
     useEffect(() => {
@@ -42,7 +43,7 @@ const TopHeader = () => {
                 }
                 {!isLoggedIn ?
                     <Tippy className='text-main' content={<span>Login</span>}>
-                        <Link title='Login' className='px-5 py-2 uppercase bg-gray-100 text-black rounded-md hover:text-main hover:bg-[#deeffc] transition-all duration-500' to={'/login'}>
+                        <Link title='Login' className='px-5 py-2 uppercase bg-gray-100 text-black rounded-md hover:text-main hover:bg-[#deeffc] transition-all duration-500' to={`login?returnUri=${location.pathname.slice(1)}`}>
                             <i className="fa-solid fa-right-to-bracket"></i>
                         </Link>
                     </Tippy>

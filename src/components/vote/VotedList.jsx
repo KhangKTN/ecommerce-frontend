@@ -2,13 +2,21 @@ import React, { memo, useEffect, useRef, useState } from 'react'
 import Rating from '../Rating'
 import moment from 'moment';
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { getReply, postReply } from '../../apis/vote';
+import { useSelector } from 'react-redux';
+import InputFields from '../InputFields';
+import ButtonLoading from '../style/ButtonLoading';
+import { toast } from 'react-toastify';
+import './VoteList.css'
 
-
-const VotedList = ({voteData, isBorder}) => {
+const VotedList = ({voteData, isBorder, reload}) => {
     const [currentImg, setCurrentImg] = useState(null)
+    const [replyData, setReplyData] = useState(null)
+    const [showFormReply, setShowFormReply] = useState(false)
+
     const sliderRef = useRef();
+    const {current} = useSelector(state => state.user)
+    const [replyContent, setReplyContent] = useState('')
 
     const settings = {
         dots: false,
@@ -21,13 +29,30 @@ const VotedList = ({voteData, isBorder}) => {
         beforeChange: (current, next) => setCurrentImg(next)
     }
 
+    const fetchDataReply = async() => {
+        const res = await getReply({voteId: voteData._id})
+        if(res.success) setReplyData(res.data)
+    }
+
     useEffect(() => {
         setCurrentImg(null)
+        if(voteData?._id) fetchDataReply()
     }, [voteData])
 
     const handleClick = (index) => {
         if(currentImg === null) setCurrentImg(index)
         sliderRef.current?.slickGoTo(index)
+    }
+
+    const handleSubmitReply = async() => {
+        const res = await postReply({voteId: voteData._id, comment: replyContent})
+        if(res.success){
+            toast.success(res.message)
+            reload()
+        }
+        else{
+            toast.error(res.message)
+        }
     }
 
     return (
@@ -40,7 +65,12 @@ const VotedList = ({voteData, isBorder}) => {
                         {new Date(voteData?.createdAt).toLocaleString()} ({moment(voteData?.createdAt).fromNow()})
                         {voteData?.productVariant && <span> | {voteData?.productVariant}</span>}
                     </span>
-                    <Rating rating={voteData?.star} setStar={() => {}} />
+                    <div className='flex gap-x-5'>
+                        <Rating rating={voteData?.star} setStar={() => {}} />
+                        {!replyData && current?.role === '1963' && <span onClick={() => setShowFormReply(true)} className='text-main italic font-bold cursor-pointer hover:underline'>Reply</span>
+
+                        }
+                    </div>
                     <h1 className='mt-3'>{voteData?.comment}</h1>
                     <div className='flex gap-x-3 mt-3'>
                         {voteData?.images?.map((img, index) => (
@@ -49,9 +79,28 @@ const VotedList = ({voteData, isBorder}) => {
                             </div>
                         ))}
                     </div>
+                    {replyData && 
+                        <div className='bg-gray-200 mt-3 ml-5 px-4 py-3 rounded'>
+                            <h1 className='font-semibold'>
+                                Feedback from seller
+                                <small className=''> ({moment(replyData?.createdAt).format('DD/MM/YYYY')})</small>
+                            </h1>
+                            <p className='text-gray-700'>{replyData?.comment}</p>
+                        </div>
+                    }
+                    {showFormReply &&
+                        <div className='bg-gray-200 rounded mt-3 p-5 animate-fade-in-fwd'>
+                            <input onChange={(e) => setReplyContent(e.target.value)} value={replyContent} className='rounded bg-gray-100 focus:ring-1 focus:ring-sky-400 p-2 outline-none min-w-[400px]' type="text" placeholder='Write something...' /> <br />
+                            {replyContent.trim().length < 10 && <small className='text-red-500'>Please input least 2 words and 10 characters!</small>}
+                            <div className='flex justify-end gap-x-3 mt-5 text-main font-semibold'>
+                                <button onClick={() => setShowFormReply(false)} className='pl-5 pr-4 py-2 border-2 border-main rounded-md'>Cancel</button>
+                                <ButtonLoading handleClick={handleSubmitReply} text={'Send reply'} disabled={!(replyContent.trim().length >= 10 && replyContent.trim().split(' ').length >= 2)} />
+                            </div>
+                        </div>
+                    }
                     {currentImg !== null && currentImg >= 0 &&
                         <div className='w-[370px] h-[500px]'>
-                            <Slider ref={sliderRef} {...settings}>
+                            <Slider className='image-slider' ref={sliderRef} {...settings}>
                                 {voteData?.images?.map((img, index) => (
                                     <img className={`w-[370px] h-[500px] mt-5 object-cover`} src={img} alt="" />
                                 ))}

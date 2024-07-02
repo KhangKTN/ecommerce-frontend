@@ -2,6 +2,7 @@ import React, { memo, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AddAddress from './AddAddress'
 import { getCurrentUser } from '../../app/asyncActionUser'
+import {getProvinceByCode, getDistrictByCode, getWardByCode} from 'vn-local-plus'
 
 const AddressList = ({address, setAddress, setModalAddress, setModalAddAddress, setModalUpdateAddress, setCurrentEdit}) => {
     const {current} = useSelector(state => state.user)
@@ -18,6 +19,12 @@ const AddressList = ({address, setAddress, setModalAddress, setModalAddAddress, 
     useEffect(() => {
         setCurrentAddress(address)
     }, [address])
+
+    const localAddressToString = (address) => {
+        const localAddress = address?.split(',')
+        if(!localAddress) return ''
+        return `${getProvinceByCode(localAddress[0]).name}, ${getDistrictByCode(localAddress[1]).name}, ${getWardByCode(localAddress[2]).name}`
+    }
 
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-[#00000025] backdrop-blur-sm">
@@ -36,7 +43,7 @@ const AddressList = ({address, setAddress, setModalAddress, setModalAddAddress, 
                                         <span className='border-l-[1px] border-gray-400 pl-3'>{item.phone}</span>
                                         <span className='text-main font-medium ml-auto cursor-pointer hover:underline' onClick={() => handleUpdate(item)}>Update</span>
                                     </div>
-                                    <span className='text-gray-500'>{item.detailAddress}</span>
+                                    <span className='text-gray-500'>{`${localAddressToString(item.localAddress)}, ${item.detailAddress}`}</span>
                                     {item.isDefault && <span className='border-[1px] border-main w-fit px-2 py-1 rounded'>Default</span>}
                                 </div>
                             ))}

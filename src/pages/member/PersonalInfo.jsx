@@ -12,9 +12,9 @@ import _ from 'lodash'
 import ButtonLoading from '../../components/style/ButtonLoading'
 import Tippy from '@tippyjs/react'
 
-const classInput = 'mt-3 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
+const classInput = 'mt-3 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-sky-500 block w-full p-2.5'
 const classError = 'text-red-500'
-const classLabel = 'text-main'
+const classLabel = 'font-semibold'
 
 const PersonalInfo = () => {
     const { register, handleSubmit, reset, setValue, formState: { errors, isDirty } } = useForm()
@@ -70,29 +70,28 @@ const PersonalInfo = () => {
         <div>
             <TitleText text={'My profile'} size={'text-3xl'}/>
             <form onSubmit={handleSubmit(submitForm)}>
-                <div className='grid grid-cols-2 gap-x-5'>
-                    <div>
-                        <label className={classLabel} htmlFor="">First name:</label>
-                        <input className={classInput} {...register("firstname", { required: 'This input is required' })} />
-                        {errors.firstname && <span className={classError}>{errors.firstname.message}</span>}
+                <div className='grid grid-cols-2 gap-x-5 items-center'>
+                    <div className='flex flex-col gap-y-5'>
+                        <div>
+                            <label className={classLabel} htmlFor="">First name:</label>
+                            <input className={classInput} {...register("firstname", { required: 'This input is required' })} />
+                            {errors.firstname && <span className={classError}>{errors.firstname.message}</span>}
+                        </div>
+                        <div>
+                            <label className={classLabel} htmlFor="">Last name:</label>
+                            <input className={classInput} {...register("lastname", { required: 'This input is required' })} />
+                            {errors.lastname && <span className={classError}>{errors.lastname.message}</span>}
+                        </div>
+                        <div>
+                            <label className={classLabel} htmlFor="">Email: </label>
+                            <span className='ml-10'>{current?.email}</span>
+                        </div>
+                        <div>
+                            <label className={classLabel} htmlFor="">Mobile: </label>
+                            <span className='ml-10'>{current?.mobile}</span>
+                        </div>
                     </div>
-                    <div>
-                        <label className={classLabel} htmlFor="">Last name:</label>
-                        <input className={classInput} {...register("lastname", { required: 'This input is required' })} />
-                        {errors.lastname && <span className={classError}>{errors.lastname.message}</span>}
-                    </div>
-                </div>
-                <div className='grid grid-cols-2 gap-x-5 mt-5'>
-                    <div>
-                        <label className={classLabel} htmlFor="">Email: </label>
-                        <span className='ml-10'>{current?.email}</span>
-                    </div>
-                    <div>
-                        <label className={classLabel} htmlFor="">Mobile: </label>
-                        <span className='ml-10'>{current?.mobile}</span>
-                    </div>
-                </div>
-                <div className='mt-5 grid grid-cols-2 gap-x-5'>
+                    <div className=''>
                     <div className='border p-4 rounded-md'>
                         <img src={avatarUrl ? avatarUrl : 'https://i2.wp.com/vdostavka.ru/wp-content/uploads/2019/05/no-avatar.png?ssl=1'} className='size-24 mx-auto bg-transparent object-cover rounded-full border'/>
                         <label htmlFor='avatar'>
@@ -104,6 +103,7 @@ const PersonalInfo = () => {
                         </label>
                         <input onChange={handleUpload} type="file" id='avatar'hidden/>
                     </div>
+                </div>
                 </div>
                 <div className='mx-auto mt-20 flex items-center gap-x-5'>
                     <div className='flex-auto h-[1px] bg-gray-200'></div>

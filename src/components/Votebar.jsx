@@ -10,7 +10,7 @@ const Votebar = ({value, voted, totalVote}) => {
             <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                 <div className="bg-main h-2.5 rounded-full" style={{width: totalVote === 0 ? '0' : `${voted / totalVote * 100}%`}}></div>
             </div>
-            <span className='text-nowrap font-semibold text-lg'>{voted} voted</span>
+            <span className='text-nowrap font-semibold text-lg'>{voted} rating</span>
         </div>
     )
 }

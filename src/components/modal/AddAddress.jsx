@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { addAddress, updateAddress } from '../../apis'
 import { useDispatch } from 'react-redux'
 import { getCurrentUser } from '../../app/asyncActionUser'
-import {getProvinces, getDistrictsByProvinceCode} from 'vn-local-plus'
+import {getProvinces, getDistrictsByProvinceCode, getWardsByDistrictCode} from 'vn-local-plus'
 
 const classInput = 'mt-2 shadow-sm bg-gray-100 text-gray-900 text-sm rounded-full focus:outline-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
 const classError = 'text-red-500'
@@ -12,17 +12,17 @@ const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirs
     const { register, watch, handleSubmit, reset, setValue, formState: { errors } } = useForm()
     const dispatcher = useDispatch()
 
+    const [localAddress, setLocalAddress] = useState({province: '', district: '', ward: ''})
     const [provinces, setProvinces] = useState([])
     const [district, setDistrict] = useState([])
+    const [wards, setWards] = useState([])
 
     const [checked, setChecked] = useState(current?.isDefault)
 
     const onSubmit = async(data) => {
-        // console.log(data);
         let res = null
-        if(current) res = await updateAddress({...data, _id: current._id})
-        else res = await addAddress(data)
-        // console.log(res);
+        if(current) res = await updateAddress({...data, _id: current._id, localAddress})
+        else res = await addAddress({...data, localAddress})
         dispatcher(getCurrentUser())
         reset()
         setModalAddAddress(false)
@@ -30,22 +30,50 @@ const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirs
         setIsLoadFirst(false)
     }
 
-    useEffect(() => {
+    const defaultLocalAddress = (address) => {
+        const defaultProvince = address ? address?.province : '01'
         setProvinces(getProvinces())
-        console.log(getProvinces());
+        const districtList = getDistrictsByProvinceCode(defaultProvince)
+        setDistrict(districtList)
+        const wardList = getWardsByDistrictCode(address ? address?.district : districtList[0].code)
+        setWards(wardList)
+        if(address) setLocalAddress({...address})
+        else setLocalAddress({
+            province: defaultProvince, 
+            district: districtList[0].code, 
+            ward: wardList[0].code
+        })
+    }
+
+    useEffect(() => {
         if(current){
+            const addressSplit = current.localAddress?.split(',')
+            const addressObj = {province: addressSplit[0], district: addressSplit[1], ward: addressSplit[2]}
+            defaultLocalAddress(addressObj)
             reset({
                 name: current?.name,
                 phone: current?.phone,
                 detailAddress: current?.detailAddress
             })
         }
+        else defaultLocalAddress()
     }, [])
 
-    const handleChangeProvince = ({target: {value}}) => {
-        console.log(value);
-        console.log(getDistrictsByProvinceCode(value));
+    const handleChangeProvince = (name, value) => {
+        const districtList = getDistrictsByProvinceCode(value)
+        setDistrict(districtList)
+        const wardList = getWardsByDistrictCode(districtList[0].code)
+        setWards(wardList)
+        setLocalAddress(prev => ({...prev, [name]: value, district: districtList[0].code, ward: wardList[0].code}))
     }
+
+    const handleChangeDistrict = (name, value) => {
+        const wardList = getWardsByDistrictCode(value)
+        setWards(wardList)
+        setLocalAddress(prev => ({...prev, [name]: value, ward: wardList[0].code}))
+    }
+
+    console.log(localAddress);
 
     return (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-[#00000025] backdrop-blur-sm">
@@ -68,16 +96,21 @@ const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirs
                                     {errors.phone && <span className={classError}>{errors.phone.message}</span>}
                                 </div>
                             </div>
-                            <div className='grid grid-cols-3 gap-x-5'>
-                                <select onChange={(e) => handleChangeProvince(e)} className={classInput} name="" id="">
+                            <div className='grid grid-cols-3 gap-x-3 mt-5'>
+                                <select onChange={({target: {name, value}}) => handleChangeProvince(name, value)} className={`${classInput} max-h-full`} name='province' id="">
                                     {provinces?.map(item => (
-                                        <option value={item.code} key={item.code}>{item.name}</option>
+                                        <option selected={item.code === localAddress['province']} value={item.code} key={item.code}>{item.name}</option>
                                     ))}
                                 </select>
-                                <select className={classInput} name="" id="">
-                                    {/* {provinces?.map(item => (
-                                        <option key={item.code}>{item.name}</option>
-                                    ))} */}
+                                <select onChange={({target: {name, value}}) => handleChangeDistrict(name, value)} className={classInput} name='district' id="">
+                                    {district?.map(item => (
+                                        <option selected={item.code === localAddress['district']} value={item.code} key={item.code}>{item.name}</option>
+                                    ))}
+                                </select>
+                                <select onChange={({target: {name, value}})=> {setLocalAddress(prev => ({...prev, [name]: value}))}} className={classInput} name='ward' id="">
+                                    {wards?.map(item => (
+                                        <option selected={item.code === localAddress['ward']} value={item.code} key={item.code}>{item.name}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div className='mt-5'>

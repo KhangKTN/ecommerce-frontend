@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { getFormatVND } from '../../utils/helpers'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
@@ -7,6 +7,18 @@ import { updateStatusOrder } from '../../apis/order'
 
 const Bill = ({bill, isAdmin, reloadList = () => {}}) => {
     const [isShowDropdown, setIsShowDropdown] = useState(false)
+
+    useEffect(() => {
+        const handleClickOutDropdown = (e) => {
+            console.log(e);
+            const dropdownButton = document.getElementById(`dropdown_${bill._id}`)
+            if(!dropdownButton?.contains(e.target)) setIsShowDropdown(false)
+        }
+
+        document.addEventListener('click', handleClickOutDropdown)
+
+        return () => document.removeEventListener('click', handleClickOutDropdown)
+    }, [])
 
     const getImage = (products) => {
         const imageUrl = products[0].product?.thumbnail
@@ -27,8 +39,8 @@ const Bill = ({bill, isAdmin, reloadList = () => {}}) => {
         return color
     }
 
-    const handleUpdateStatus = async(e) => {
-        const res = await updateStatusOrder(bill._id, {status: e.target.innerHTML})
+    const handleUpdateStatus = async(status) => {
+        const res = await updateStatusOrder(bill._id, {status})
         console.log(res)
         reloadList();
     }
@@ -90,25 +102,41 @@ const Bill = ({bill, isAdmin, reloadList = () => {}}) => {
             </div>
             <div className='w-full h-[1px] bg-gray-200'></div>
             <div className='flex justify-between items-center'>
-                {isAdmin && (bill.status !== 'Finish' && bill.status !== 'Cancel') &&
+                {isAdmin && (bill.status !== 'Finish' && bill.status !== 'Cancel') && orderStatus.reduce((result, item) => item.key === bill.status ? [...result, orderStatus[item.id]] : result , []).map((item, index) => (
                     <div className='relative'>
                         <div className='flex'>
-                            <button onClick={(e) => handleUpdateStatus(e)} className="text-white border-r-[1px] border-white bg-main hover:bg-sky-500 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">
+                            <button onClick={() => handleUpdateStatus(item.key)} className="text-white border-r-[1px] border-white bg-main hover:bg-sky-500 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">
+                                <span>{orderStatus[orderStatus.findIndex(item => item.value === bill.status) + 1].icon}</span>
                                 {orderStatus[orderStatus.findIndex(item => item.value === bill.status) + 1].value}
                             </button>
-                            <button onClick={() => setIsShowDropdown(!isShowDropdown)} className="min-h-full text-white bg-main hover:bg-sky-500 font-medium rounded-e-lg text-sm px-2 text-center block items-center" type="button">
-                                <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                                </svg>
-                            </button>
+                            <div id={`dropdown_${bill._id}`}>
+                                <button onClick={() => setIsShowDropdown(!isShowDropdown)} className="min-h-full text-white bg-main hover:bg-sky-500 font-medium rounded-e-lg text-sm px-2 text-center block items-center" type="button">
+                                    <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                    </svg>
+                                </button>
+                                <div hidden={!isShowDropdown} class="absolute top-[calc(100%+1px)] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow">
+                                    <ul class="text-sm text-gray-700 dark:text-gray-200">
+                                        <li onClick={() => handleUpdateStatus('Cancel')} className='flex rounded-lg px-4 py-3 cursor-pointer bg-red-400 hover:bg-red-500'>
+                                            <span>{orderStatus[orderStatus.length - 1].icon}</span>
+                                            {orderStatus[orderStatus.length - 1].value}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
-                        <div hidden={!isShowDropdown} class="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                            <ul onClick={(e) => handleUpdateStatus(e)} class="p-2 text-sm text-gray-700 dark:text-gray-200">
-                                <li className='rounded block px-4 py-2 cursor-pointer hover:bg-red-300 dark:hover:bg-gray-600 dark:hover:text-white'>{orderStatus[orderStatus.length - 1].value}</li>
+                        {/* <div hidden={!isShowDropdown} class="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                            <ul class="text-sm text-gray-700 dark:text-gray-200">
+                                <li onClick={() => handleUpdateStatus('Cancel')} className='rounded-lg block px-4 py-3 cursor-pointer bg-red-400 hover:bg-red-500'>
+                                    <span>{orderStatus[orderStatus.length - 1].icon}</span>
+                                    {orderStatus[orderStatus.length - 1].value}
+                                </li>
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
+                ))
+
                 }
                 <Link to={`/order-detail/${bill._id}`} className='text-lg ml-auto text-main font-bold underline cursor-pointer'>View detail</Link>
             </div>

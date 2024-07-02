@@ -14,7 +14,7 @@ import Paypal from '../../components/payment/Paypal'
 import { createOrder, createOrderVnpay } from '../../apis/order'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
-
+import {getProvinceByCode, getDistrictByCode, getWardByCode} from 'vn-local-plus'
 
 const Checkout = () => {
     const navigate = useNavigate()
@@ -45,6 +45,12 @@ const Checkout = () => {
         fetchDataCart()
         setAddress(current?.address.find(item => item.isDefault))
     }, [searchParams, current])
+
+    const localAddressToString = (address) => {
+        const localAddress = address?.split(',')
+        if(!localAddress) return ''
+        return `${getProvinceByCode(localAddress[0]).name}, ${getDistrictByCode(localAddress[1]).name}, ${getWardByCode(localAddress[2]).name}`
+    }
 
     const handleCreateOrder = async() => {
         const res = await createOrder({products: cart, totalPrice, address})
@@ -84,7 +90,7 @@ const Checkout = () => {
                             <h1 className='text-xl font-semibold text-main mb-3'><i className="fa-solid fa-location-dot mr-3"></i>Delivery Address</h1>
                             <div className='flex gap-x-5 items-center'>
                                 <h1 className={'text-lg font-semibold ' + (!address && 'text-red-400')}>{address ? `${address?.name} | ${address?.phone}` : 'Please add an address for delivery!'}</h1>
-                                <span className=''>{address?.detailAddress}</span>
+                                <span className=''>{localAddressToString(address?.localAddress)}, {address?.detailAddress}</span>
                                 <button className='ml-5 text-main hover:underline font-medium' onClick={() => setModalAddress(true)}>{address ? 'Change' : 'Add address'}</button>
                             </div>
                         </div>
@@ -92,10 +98,11 @@ const Checkout = () => {
                     <div className='overflow-y-auto bg-gray-100 rounded-lg px-8 py-5 mt-5'>
                         <h1 className='text-xl font-semibold text-main mb-3'><i className="fa-solid fa-clipboard-list mr-3"></i>Order Products</h1>
                         <div className='flex gap-x-3 justify-between text-lg font-bold mb-2'>
-                            <div className='min-w-[50%]'>Name product</div>
+                            <div className='min-w-[40%]'>Name product</div>
                             <div className='min-w-[20%]'>Quantity</div>
                             <div className='min-w-[15%]'>Price</div>
                             <div className='min-w-[15%]'>Sum price</div>
+                            <div className='min-w-[10%]'></div>
                         </div>
                         {cart?.map((item, index, arr) => {
                             totalPrice += item.product?.variant.reduce((value, variant) => variant._id === item.variant ? variant.price * item.quantity : value, item.product.price * item.quantity)
@@ -116,11 +123,12 @@ const Checkout = () => {
                     </div>
                     <div className='mt-5 bg-gray-100 px-8 py-5 rounded-lg'>
                         <h1 className='text-xl font-semibold text-main'><i className="fa-solid fa-file-invoice-dollar mr-3"></i>Payment method</h1>
-                        <div className='my-5'>
+                        <div className='my-5 flex flex-col gap-y-2'>
                             {paymentMethod.map(item => (
-                                <div key={item.id} onClick={() => setPayment(item.value)}>
+                                <div key={item.id} onClick={() => setPayment(item.value)} className='flex'>
                                     <span className='text-main mr-3 cursor-pointer'><i className={item.value === payment ? 'fa-solid fa-circle-dot ' : 'fa-regular fa-circle'}></i></span>
-                                    <label className='cursor-pointer' htmlFor={item.id}>{item.text}</label>
+                                    <img src={item.icon} className='w-12 h-6 object-contain bg-gray-200 mr-3 rounded' alt="" />
+                                    <label className='cursor-pointer font-semibold tracking-wide' htmlFor={item.id}>{item.text}</label>
                                 </div>
                             ))}
                         </div>
