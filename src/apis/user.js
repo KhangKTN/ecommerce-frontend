@@ -1,90 +1,112 @@
-import axios from "../config/axios"
+import axios from '../config/axios'
 
-export const registerApi = (data) => axios({
-    url: '/user/register',
-    method: 'post',
-    data
-})
+export const registerApi = data =>
+    axios({
+        url: '/user/register',
+        method: 'post',
+        data
+    })
 
-export const loginApi = (data) => axios({
-    url: '/user/login',
-    method: 'post',
-    data
-})
+export const loginApi = data =>
+    axios({
+        url: '/user/login',
+        method: 'post',
+        data
+    })
 
-export const forgotPassword = (data) => axios({
-    url: `/user/forgotPassword`,
-    method: 'post',
-    data,
-    params: {test: 'test'}
-})
+export const loginSuccess = data =>
+    axios({
+        url: '/auth/login-oauth-success',
+        method: 'post',
+        data
+    })
 
-export const resetPassword = (data) => axios({
-    url: '/user/resetPassword',
-    method: 'post',
-    data
-})
+export const forgotPassword = data =>
+    axios({
+        url: `/user/forgotPassword`,
+        method: 'post',
+        data,
+        params: { test: 'test' }
+    })
 
-export const getCurrentUser = () => axios({
-    url: '/user/currentUser',
-    method: 'get'
-})
+export const resetPassword = data =>
+    axios({
+        url: '/user/resetPassword',
+        method: 'post',
+        data
+    })
 
-export const getUserList = (params) => axios({
-    url: '/user/getAllUser',
-    method: 'get',
-    params
-})
+export const getCurrentUser = () =>
+    axios({
+        url: '/user/currentUser',
+        method: 'get'
+    })
 
-export const updateUser = (data) => axios({
-    url: 'user/updateUser',
-    method: 'put',
-    data
-})
+export const getUserList = params =>
+    axios({
+        url: '/user/getAllUser',
+        method: 'get',
+        params
+    })
 
-export const changePassword = (data) => axios({
-    url: 'user/changePassword',
-    method: 'put',
-    data
-})
+export const updateUser = data =>
+    axios({
+        url: 'user/updateUser',
+        method: 'put',
+        data
+    })
 
-export const updateUserByAdmin = (data) => axios({
-    url: 'user/updateUserAdmin',
-    method: 'put',
-    data
-})
+export const changePassword = data =>
+    axios({
+        url: 'user/changePassword',
+        method: 'put',
+        data
+    })
 
-export const getCart = (params) => axios({
-    url: 'user/cart',
-    method: 'get',
-    params
-})
+export const updateUserByAdmin = data =>
+    axios({
+        url: 'user/updateUserAdmin',
+        method: 'put',
+        data
+    })
 
-export const addCart = (data) => axios({
-    url: 'user/addCart',
-    method: 'put',
-    data
-})
+export const getCart = params =>
+    axios({
+        url: 'user/cart',
+        method: 'get',
+        params
+    })
 
-export const updateCart = (data) => axios({
-    url: 'user/updateCart',
-    method: 'put',
-    data
-})
+export const addCart = data =>
+    axios({
+        url: 'user/addCart',
+        method: 'put',
+        data
+    })
 
-export const addWishList = (productId) => axios({
-    url: `user/wishList/${productId}`,
-    method: 'put'
-})
+export const updateCart = data =>
+    axios({
+        url: 'user/updateCart',
+        method: 'put',
+        data
+    })
 
-export const addAddress = (data) => axios({
-    url: `user/addAddress`,
-    method: 'put',
-    data
-})
+export const addWishList = productId =>
+    axios({
+        url: `user/wishList/${productId}`,
+        method: 'put'
+    })
 
-export const updateAddress = (data) => axios({
-    url: `user/updateAddress`,
-    method: 'put',
-    data
-})
+export const addAddress = data =>
+    axios({
+        url: `user/addAddress`,
+        method: 'put',
+        data
+    })
+
+export const updateAddress = data =>
+    axios({
+        url: `user/updateAddress`,
+        method: 'put',
+        data
+    })

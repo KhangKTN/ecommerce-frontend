@@ -4,6 +4,7 @@ const path = {
     HOME: '',
     ALL: '*',
     LOGIN: 'login',
+    LOGIN_SUCCESS: 'login-success/:userId',
     REGISTER: 'register',
     COMPLETE_REGISTER: 'complete-register/:success',
     FORGOT_PASSWORD: 'forgot-password',

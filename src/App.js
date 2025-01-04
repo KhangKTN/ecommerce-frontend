@@ -22,6 +22,7 @@ import Checkout from './pages/member/Checkout';
 import Order from './pages/member/Order';
 import OrderDetail from './pages/member/OrderDetail';
 import PaidFinish from './pages/member/PaidFinish';
+import LoginSuccess from './pages/public/LoginSuccess';
 
 function App() {
   const dispatch = useDispatch()
@@ -34,6 +35,7 @@ function App() {
     <div className="min-h-screen font-main">
       <Routes>
           <Route path={path.LOGIN} element={<Login/>}/>
+          <Route path={path.LOGIN_SUCCESS} element={<LoginSuccess/>}/>
           <Route path={path.REGISTER} element={<Register/>}/>
           <Route path={path.COMPLETE_REGISTER} element={<CompleteRegister/>}/>
           <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword/>}/>

@@ -165,7 +165,7 @@ module.exports = {
         'slide-in-left': 'slide-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
         'slide-in-right': 'slide-in-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
         'countdown-animation': 'countdown 10s linear forwards',
-        'fade-in-fwd': 'fade-in-fwd 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both',
+        'fade-in-fwd': 'fade-in-fwd .3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both',
         'blink': 'blink .5s 5',
         'slide-in-blurred-top': 'slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both',
         'wobble-hor-bottom': 'wobble-hor-bottom 0.8s both',
