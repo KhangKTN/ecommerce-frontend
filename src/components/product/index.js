@@ -1,0 +1,5 @@
+export { default as Comment } from './Comment'
+export { default as CustomSlider } from './CustomSlider'
+export { default as ModalImage } from './ModalImage'
+export { default as Product } from './Product'
+export { default as Rating } from './Rating'

@@ -1,21 +1,20 @@
-import moment from 'moment'
-import React, { useEffect, useState } from 'react'
-import { DateRangePicker } from 'react-date-range'
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
-import { getOrderUser } from '../../apis/order'
-import CustomSelectFilter from '../../components/CustomSelectFilter'
-import Bill from '../../components/order/Bill'
-import Pagination from '../../components/pagination/Pagination'
-import TitleText from '../../components/style/TitleText'
-import { orderStatus, sortBill } from '../../utils/contants'
-import { getObjectSearchParam } from '../../utils/helpers'
-import path from '../../utils/path'
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { getOrderUser } from '../../apis/order';
+import Bill from '../../components/order/Bill';
+import Pagination from '../../components/pagination/Pagination';
+import { CustomSelectFilter, TitleText } from '../../components/ui';
+import { orderStatus, sortBill } from '../../utils/contants';
+import { getObjectSearchParam } from '../../utils/helpers';
+import path from '../../utils/path';
 
 const Order = () => {
     const navigate = useNavigate()
-    const [searchParams, setSearchParam] = useSearchParams()
+    const [searchParams] = useSearchParams()
 
     const [orderList, setOrderList] = useState(null)
     const [activeFilter, setActiveFilter] = useState(null)
@@ -29,7 +28,7 @@ const Order = () => {
         }
     ])
 
-    const fetchOrderList = async queries => {
+    const fetchOrderList = async (queries) => {
         const res = await getOrderUser(queries)
         if (res.success) {
             if (res.success) {
@@ -40,8 +39,7 @@ const Order = () => {
     }
 
     useEffect(() => {
-        const handleClickOutside = e => {
-            console.log(e.target.id)
+        const handleClickOutside = (e) => {
             if (!e.target.id.includes('filter')) {
                 setActiveFilter(null)
             }
@@ -66,8 +64,6 @@ const Order = () => {
     }, [page])
 
     useEffect(() => {
-        console.log(time[0]?.startDate?.getTime())
-        console.log(time[0]?.endDate?.getTime())
         let queries = getObjectSearchParam(searchParams)
         if (time[0].startDate || time[0].endDate) {
             queries['date[gte]'] = time[0]?.startDate?.getTime()
@@ -118,10 +114,10 @@ const Order = () => {
                             : 'Choose date'}
                     </button>
                     {activeFilter === 'date-range' && (
-                        <div onClick={e => e.stopPropagation()} id={'order_filter_picker_date'}>
+                        <div onClick={(e) => e.stopPropagation()} id={'order_filter_picker_date'}>
                             <DateRangePicker
                                 editableDateInputs={true}
-                                onChange={item => setTime([item.selection])}
+                                onChange={(item) => setTime([item.selection])}
                                 moveRangeOnFirstSelection={false}
                                 ranges={time}
                                 maxDate={new Date()}
@@ -132,7 +128,7 @@ const Order = () => {
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-5'>
-                {orderList?.map(bill => (
+                {orderList?.map((bill) => (
                     <Bill key={bill._id} bill={bill} isAdmin={false} />
                 ))}
             </div>

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import TitleText from '../../components/style/TitleText'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import { updateProduct } from '../../apis'
 import { toast } from 'react-toastify'
-import { forEach } from 'lodash'
-import ButtonLoading from '../../components/style/ButtonLoading'
+import { updateProduct } from '../../apis'
+import { ButtonLoading } from '../../components/ui'
 
 const classInput = 'mt-3 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
 const classError = 'text-red-500'
@@ -63,14 +61,12 @@ const UpdateProduct = ({title, setShowModal, product, handleRefresh}) => {
     const handleAdd = () => {
         const list = [...listAttribute]
         list.push({id: listAttribute.length + 1, data: ''})
-        // console.log(list);
         setListAttribute(list)
     }
 
     const handleRemove = (id) => {
         console.log(id);
         const list = listAttribute.filter(item => item.id !== id)
-        console.log(list);
         setListAttribute(list)
     }
 
@@ -97,7 +93,7 @@ const UpdateProduct = ({title, setShowModal, product, handleRefresh}) => {
         if(files.length > 0){
             setImageUrl([...e.target.files].map(img => URL.createObjectURL(img)))
             setImages([...e.target.files])
-        } 
+        }
     }
 
     return (
@@ -124,7 +120,7 @@ const UpdateProduct = ({title, setShowModal, product, handleRefresh}) => {
                                 <div className='grid grid-cols-2 gap-x-5 mb-5'>
                                     <div>
                                         <label htmlFor="">Name product:</label>
-                                        <input className={classInput} placeholder="Iphone 15 Pro Max" {...register("name", {required: 'This input is required'})}/>        
+                                        <input className={classInput} placeholder="Iphone 15 Pro Max" {...register("name", {required: 'This input is required'})}/>
                                         {watchFields['name'] !== product?.name && <span className={`text-main mt-2 inline-block`}>Modified <i className="fa-solid fa-check"></i></span>}
                                         {errors.name && <span className={classError}>{errors.name.message}</span>}
                                     </div>
@@ -141,7 +137,7 @@ const UpdateProduct = ({title, setShowModal, product, handleRefresh}) => {
                                 <div className='grid grid-cols-3 gap-x-5 mb-5'>
                                     <div>
                                         <label htmlFor="">Price:</label>
-                                        <input type='number' className={classInput} {...register("price", {min: {value: 0, message: 'Price must be > 0'}})} /> 
+                                        <input type='number' className={classInput} {...register("price", {min: {value: 0, message: 'Price must be > 0'}})} />
                                         {watchFields['price'] != product?.price && <p className={`text-main mt-2 inline-block`}>Modified <i className="fa-solid fa-check"></i></p>}
                                         {errors.price && <span className={classError}>{errors.price.message}</span>}
                                     </div>
@@ -156,7 +152,7 @@ const UpdateProduct = ({title, setShowModal, product, handleRefresh}) => {
                                     </div>
                                     <div>
                                         <label htmlFor="">Quantity:</label>
-                                        <input type='number' className={classInput} {...register("quantity", {required: 'This input is required', min: {value: 0, message: 'Price must be >= 0'}})} />   
+                                        <input type='number' className={classInput} {...register("quantity", {required: 'This input is required', min: {value: 0, message: 'Price must be >= 0'}})} />
                                         {watchFields['quantity'] != product?.quantity && <span className={`text-main mt-2 inline-block`}>Modified <i className="fa-solid fa-check"></i></span>}
                                         {errors.quantity && <span className={classError}>{errors.quantity.message}</span>}
                                     </div>
@@ -166,7 +162,7 @@ const UpdateProduct = ({title, setShowModal, product, handleRefresh}) => {
                                         <div>
                                             <label htmlFor="product-thumbnail">Upload thumbnail:
                                                 <div className='mt-3 border bg-gray-50 rounded-md h-[250px] flex items-center justify-center'>
-                                                    {thumbnailUrl ? 
+                                                    {thumbnailUrl ?
                                                         <img src={thumbnailUrl} className='h-full w-full object-contain cursor-pointer'/>
                                                     :
                                                         <div className='rounded-full px-3 py-2 bg-gray-100 text-main text-center w-fit hover:bg-gray-200 cursor-pointer'>
@@ -181,10 +177,10 @@ const UpdateProduct = ({title, setShowModal, product, handleRefresh}) => {
                                         <div className='mt-5'>
                                             <label htmlFor="product-image">Upload images:
                                                 <div className='mt-3 border min-h-[250px] bg-gray-50 rounded-md h-auto flex items-center justify-center'>
-                                                    {imageUrl.length > 0 ? 
+                                                    {imageUrl.length > 0 ?
                                                         <div className='h-full w-full grid grid-cols-2 gap-2 cursor-pointer'>
                                                             {imageUrl.map(item => (
-                                                                <img src={item} className='h-[120px] w-full object-contain rounded-md border'/>
+                                                                <img src={item} className='h-[120px] w-full object-contain rounded-md border' alt=''/>
                                                             ))}
                                                         </div>
                                                     :
@@ -205,7 +201,7 @@ const UpdateProduct = ({title, setShowModal, product, handleRefresh}) => {
                                             <div className='flex gap-x-3 mb-3'>
                                                 <input type="text" className={`w-[75%] ` + classInput} onChange={(e) => handleChange(item.id, e.target.value)} value={item.data} placeholder='Weight: 500g'/>
                                                 {index === listAttribute.length - 1 && <button onClick={() => handleAdd()} type='button' className='bg-green-500 px-[14px] mt-3 rounded-full text-white'><i className="fa-solid fa-plus"></i></button>}
-                                                {listAttribute.length !== 1 && <button onClick={() => handleRemove(item.id)} type='button' className='bg-red-500 px-[15px] mt-3 rounded-full text-white'><i className="fa-solid fa-xmark"></i></button>} 
+                                                {listAttribute.length !== 1 && <button onClick={() => handleRemove(item.id)} type='button' className='bg-red-500 px-[15px] mt-3 rounded-full text-white'><i className="fa-solid fa-xmark"></i></button>}
                                             </div>
                                         ))}
                                         </div>

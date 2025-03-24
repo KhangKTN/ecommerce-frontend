@@ -1,17 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
-import appSlice from './appSlice';
-import userSlide from './userSlide';
-import storage from 'redux-persist/lib/storage';
-import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-  } from 'redux-persist'
+import { configureStore } from '@reduxjs/toolkit'
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import appSlice from './slices/appSlice'
+import userSlide from './slices/userSlide'
 
 const commonConfig = {
     key: 'shop/user',
@@ -32,8 +23,8 @@ export const store = configureStore({
         getDefaultMiddleware({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-            },
-        }),
-});
+            }
+        })
+})
 
 export const persistor = persistStore(store)

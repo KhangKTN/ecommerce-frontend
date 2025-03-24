@@ -1,22 +1,21 @@
-import { Outlet } from "react-router-dom"
-import { Header, Nav, TopHeader } from "../../components"
-import Footer from "../../components/Footer"
+import { Outlet } from 'react-router-dom'
+import { Footer, Header, Nav, TopHeader } from '../../components/layout'
 
 const Public = () => {
-    return(
+    return (
         <>
-            <TopHeader/>
-            <div className="w-main px-5 mx-auto">
-                <div className="">
-                    <Header/>
+            <TopHeader />
+            <div className='w-main px-5 mx-auto'>
+                <div className=''>
+                    <Header />
                 </div>
-                <div className="">
-                    <Nav/>
+                <div className=''>
+                    <Nav />
                 </div>
-                <Outlet/>
+                <Outlet />
             </div>
-            <div className="mt-10">
-                <Footer/>
+            <div className='mt-10'>
+                <Footer />
             </div>
         </>
     )

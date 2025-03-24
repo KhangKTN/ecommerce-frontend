@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { addAddress, updateAddress } from '../../apis'
 import { useDispatch } from 'react-redux'
-import { getCurrentUser } from '../../app/asyncActionUser'
-import {getProvinces, getDistrictsByProvinceCode, getWardsByDistrictCode} from 'vn-local-plus'
+import { getDistrictsByProvinceCode, getProvinces, getWardsByDistrictCode } from 'vn-local-plus'
+import { addAddress, updateAddress } from '../../apis'
+import { getCurrentUser } from '../../app/actions/userAction'
 
 const classInput = 'mt-2 shadow-sm bg-gray-100 text-gray-900 text-sm rounded-full focus:outline-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
 const classError = 'text-red-500'
 
 const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirst}) => {
-    const { register, watch, handleSubmit, reset, setValue, formState: { errors } } = useForm()
+    const { register, handleSubmit, reset, formState: { errors } } = useForm()
     const dispatcher = useDispatch()
 
     const [localAddress, setLocalAddress] = useState({province: '', district: '', ward: ''})
@@ -39,8 +39,8 @@ const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirs
         setWards(wardList)
         if(address) setLocalAddress({...address})
         else setLocalAddress({
-            province: defaultProvince, 
-            district: districtList[0].code, 
+            province: defaultProvince,
+            district: districtList[0].code,
             ward: wardList[0].code
         })
     }
@@ -134,7 +134,6 @@ const AddAddress = ({setModalAddress, setModalAddAddress, current, setIsLoadFirs
                             <button
                                 className="text-main hover:text-white border-2 border-main hover:bg-main font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                 type="submit"
-                                // onClick={() => {setModalAddAddress(false)}}
                             >
                                 Yes
                             </button>

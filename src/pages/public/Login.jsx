@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { loginApi } from '../../apis'
-import { login } from '../../app/userSlide'
-import InputFields from '../../components/InputFields'
+import { login } from '../../app/slices/userSlide'
+import { InputFields } from '../../components/ui'
 import path from '../../utils/path'
 
 const Login = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const location = useLocation()
     const [searchParams] = useSearchParams()
-    const { isLoggedIn } = useSelector(state => state.user)
+    const { isLoggedIn } = useSelector((state) => state.user)
 
-    const [isShowPw, setIsShowPw] = useState(false)
     const [loginInfo, setLoginInfo] = useState({ email: '', password: '' })
     const [invalid, setInvalid] = useState({ email: '', password: '' })
 
@@ -38,9 +36,9 @@ const Login = () => {
 
     const validateForm = () => {
         let valid = true
-        Object.keys(loginInfo).map(e => {
+        Object.keys(loginInfo).map((e) => {
             if (!loginInfo[e]) {
-                setInvalid(prev => ({ ...prev, [e]: `${e} is required!` }))
+                setInvalid((prev) => ({ ...prev, [e]: `${e} is required!` }))
                 valid = false
             }
             if (invalid[e]) {

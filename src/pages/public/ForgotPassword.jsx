@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import InputFields from "../../components/InputFields"
-import { toast } from 'react-toastify'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { forgotPassword, resetPassword } from '../../apis'
+import { InputFields } from '../../components/ui'
 import path from '../../utils/path'
 
 const defaultObj = {email: '', password: '', repassword: ''}
@@ -21,7 +21,6 @@ const ForgotPassword = () => {
     const [token, setToken] = useState(query.get('token'))
 
     const handleClick = useCallback(async() => {
-        console.log(query.get('step'));
         if(step == 1){
             setIsLoading(true)
             const res = await forgotPassword(data)
@@ -58,14 +57,14 @@ const ForgotPassword = () => {
         <div className="w-screen h-screen bg-gradient-to-r from-indigo-400 to-cyan-400 flex flex-col justify-center gap-y-10">
             <div className="text-center flex flex-col items-center -mt-16 gap-y-3">
                 <h2 className="text-4xl text-white font-bold tracking-tight">
-                    {query.get('step') == 1 ? 'Enter your email to reset password' : 'Reset Password'} 
+                    {query.get('step') == 1 ? 'Enter your email to reset password' : 'Reset Password'}
                 </h2>
             </div>
             <div className="flex justify-center items-center my-2 mx-4 md:mx-0">
-                
+
                 <div className="w-full max-w-md bg-white rounded-xl shadow-md p-6">
                     <div className="flex flex-wrap -mx-3 mb-4 px-3">
-                    {query.get('step') == 1 ? 
+                    {query.get('step') == 1 ?
                         <div className="w-full md:w-full mb-3">
                             <label className="block capitalize tracking-wide text-gray-700 text-md font-bold mb-2">Email:</label>
                             <div className="w-full">

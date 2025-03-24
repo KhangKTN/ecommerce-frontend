@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { getBlogDetail, likeOrDislikeBlog, updateView } from '../../apis/blog'
-import { useParams } from 'react-router-dom'
-import Loading from '../../components/Loading'
-import BlogDetail from '../../components/skeleton/BlogDetail'
 import moment from 'moment'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { getBlogDetail, likeOrDislikeBlog, updateView } from '../../apis/blog'
+import SkeletonBlogDetail from '../../components/skeleton/SkeletonBlogDetail'
 
 let interval = null
 
@@ -57,7 +56,7 @@ const DetailBlog = () => {
     return (
         <div className='mt-5'>
             {blog === null ?
-                <BlogDetail/>
+                <SkeletonBlogDetail/>
             :
                 <>
                     <div className='text-gray-500 my-3 flex justify-between'>

@@ -1,16 +1,15 @@
-import React, { memo, useEffect, useState } from 'react'
-import { getFormatVND } from '../../utils/helpers'
 import moment from 'moment'
+import React, { memo, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { orderStatus } from '../../utils/contants'
 import { updateStatusOrder } from '../../apis/order'
+import { orderStatus } from '../../utils/contants'
+import { getFormatVND } from '../../utils/helpers'
 
 const Bill = ({ bill, isAdmin, reloadList = () => {} }) => {
     const [isShowDropdown, setIsShowDropdown] = useState(false)
 
     useEffect(() => {
-        const handleClickOutDropdown = e => {
-            // console.log(e);
+        const handleClickOutDropdown = (e) => {
             const dropdownButton = document.getElementById(`dropdown_${bill._id}`)
             if (!dropdownButton?.contains(e.target)) setIsShowDropdown(false)
         }
@@ -20,17 +19,17 @@ const Bill = ({ bill, isAdmin, reloadList = () => {} }) => {
         return () => document.removeEventListener('click', handleClickOutDropdown)
     }, [])
 
-    const getImage = products => {
+    const getImage = (products) => {
         const imageUrl = products[0].product?.thumbnail
         return imageUrl
     }
 
-    const getVariant = productItem => {
-        const variant = productItem?.product?.variant?.find(vart => vart._id === productItem.variant)
+    const getVariant = (productItem) => {
+        const variant = productItem?.product?.variant?.find((vart) => vart._id === productItem.variant)
         return `(${variant?.variantType}: ${variant?.name})`
     }
 
-    const getColor = status => {
+    const getColor = (status) => {
         let color = ''
         if (status === 'Finish') color = 'bg-green-500'
         else if (status === 'Cancel') color = 'bg-red-500'
@@ -39,7 +38,7 @@ const Bill = ({ bill, isAdmin, reloadList = () => {} }) => {
         return color
     }
 
-    const handleUpdateStatus = async status => {
+    const handleUpdateStatus = async (status) => {
         const res = await updateStatusOrder(bill._id, { status })
         console.log(res)
         reloadList()
@@ -50,7 +49,7 @@ const Bill = ({ bill, isAdmin, reloadList = () => {} }) => {
             <div className='flex items-center gap-x-10'>
                 <img className='w-[80px] h-[100px] object-contain' src={getImage(bill.products)} alt='' />
                 <ul className='list-decimal w-full'>
-                    {bill.products.map(pro => (
+                    {bill.products.map((pro) => (
                         <li className=''>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col'>
@@ -124,12 +123,12 @@ const Bill = ({ bill, isAdmin, reloadList = () => {} }) => {
                                         <span>
                                             {
                                                 orderStatus[
-                                                    orderStatus.findIndex(item => item.value === bill.status) + 1
+                                                    orderStatus.findIndex((item) => item.value === bill.status) + 1
                                                 ].icon
                                             }
                                         </span>
                                         {
-                                            orderStatus[orderStatus.findIndex(item => item.value === bill.status) + 1]
+                                            orderStatus[orderStatus.findIndex((item) => item.value === bill.status) + 1]
                                                 .value
                                         }
                                     </button>

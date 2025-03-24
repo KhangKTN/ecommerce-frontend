@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { getUserList, updateUserByAdmin } from '../../apis/user'
 import ConfirmModal from '../../components/modal/ConfirmModal'
 import Pagination from '../../components/pagination/Pagination'
-import TitleText from '../../components/style/TitleText'
+import { TitleText } from '../../components/ui'
 import Debounce from '../../hooks/Debounce'
 
 const ManageUser = () => {
@@ -21,7 +21,7 @@ const ManageUser = () => {
     const [currentUser, setCurrentUser] = useState(null)
     const [isShowModalRole, setModalShowRole] = useState(false)
 
-    const fetchDataUser = async query => {
+    const fetchDataUser = async (query) => {
         const res = await getUserList(query)
         if (res.success) {
             setUserList(null)
@@ -32,14 +32,14 @@ const ManageUser = () => {
         }
     }
 
-    const handleClickCheckbox = async id => {
-        if (select?.includes(id)) setSelect(select?.filter(item => item !== id))
-        else setSelect(prev => [...prev, id])
+    const handleClickCheckbox = async (id) => {
+        if (select?.includes(id)) setSelect(select?.filter((item) => item !== id))
+        else setSelect((prev) => [...prev, id])
     }
 
-    const handleSort = value => {
+    const handleSort = (value) => {
         setUserList([...sortData(sort?.includes('-') ? '' : '-', userList)])
-        setSort(prev => (prev?.includes('-') ? value : '-' + value))
+        setSort((prev) => (prev?.includes('-') ? value : '-' + value))
     }
 
     const handleBlock = async (name, data) => {
@@ -112,7 +112,7 @@ const ManageUser = () => {
                         <input
                             type='search'
                             value={search}
-                            onChange={e => {
+                            onChange={(e) => {
                                 setSearch(e.target.value)
                                 isLoadFirst && setIsLoadFirst(false)
                             }}
@@ -132,7 +132,9 @@ const ManageUser = () => {
                                         checked={select.length === userList?.length && userList?.length !== 0}
                                         onClick={() =>
                                             setSelect(
-                                                select.length === userList.length ? [] : userList?.map(item => item._id)
+                                                select.length === userList.length
+                                                    ? []
+                                                    : userList?.map((item) => item._id)
                                             )
                                         }
                                         id='checkbox-all-search'
@@ -170,7 +172,7 @@ const ManageUser = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {userList?.map(item => (
+                        {userList?.map((item) => (
                             <tr
                                 key={item._id}
                                 className='bg-white text-base border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
@@ -204,7 +206,7 @@ const ManageUser = () => {
                                         <select
                                             ref={refSelect}
                                             className='text-pink-400'
-                                            onChange={e => {
+                                            onChange={(e) => {
                                                 setCurrentUser(item)
                                                 setModalShowRole(true)
                                                 isLoadFirst && setIsLoadFirst(false)

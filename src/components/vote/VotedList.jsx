@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux'
 import Slider from 'react-slick'
 import { toast } from 'react-toastify'
 import { getReply, postReply } from '../../apis/vote'
-import Rating from '../Rating'
-import ButtonLoading from '../style/ButtonLoading'
+import { Rating } from '../product'
+import ButtonLoading from '../ui/ButtonLoading'
 import './VoteList.css'
 
 const VotedList = ({ voteData, isBorder, reload }) => {
@@ -15,7 +15,7 @@ const VotedList = ({ voteData, isBorder, reload }) => {
     const [replyContent, setReplyContent] = useState('')
 
     const sliderRef = useRef()
-    const { current } = useSelector(state => state.user)
+    const { current } = useSelector((state) => state.user)
 
     const settings = {
         dots: false,
@@ -38,7 +38,7 @@ const VotedList = ({ voteData, isBorder, reload }) => {
         if (voteData?._id) fetchDataReply()
     }, [voteData])
 
-    const handleClick = index => {
+    const handleClick = (index) => {
         if (currentImg === null) setCurrentImg(index)
         sliderRef.current?.slickGoTo(index)
     }
@@ -107,7 +107,7 @@ const VotedList = ({ voteData, isBorder, reload }) => {
                     {showFormReply && (
                         <div className='bg-gray-200 rounded mt-3 p-5 animate-fade-in-fwd'>
                             <input
-                                onChange={e => setReplyContent(e.target.value)}
+                                onChange={(e) => setReplyContent(e.target.value)}
                                 value={replyContent}
                                 className='rounded bg-gray-100 focus:ring-1 focus:ring-sky-400 p-2 outline-none min-w-[400px]'
                                 type='text'

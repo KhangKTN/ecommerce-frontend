@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import MarkdownEditor from '../../components/markdown/MarkdownEditor'
-import { createBlog, getBlogDetail, updateBlog } from '../../apis/blog'
-import ButtonLoading from '../../components/style/ButtonLoading'
 import { toast } from 'react-toastify'
+import { createBlog, getBlogDetail, updateBlog } from '../../apis/blog'
+import MarkdownEditor from '../../components/markdown/MarkdownEditor'
+import { ButtonLoading, TitleText } from '../../components/ui'
 import { linkBlog } from '../../utils/contants'
-import TitleText from '../../components/style/TitleText'
 
 const inputClass =
     'mt-3 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light'
@@ -55,11 +54,16 @@ const CreateBlog = ({ isEdit, blog, handleReload }) => {
             <div className='grid grid-cols-2 gap-x-5'>
                 <div className='mb-5'>
                     <label htmlFor=''>Title:</label>
-                    <input value={title} onChange={e => setTitle(e.target.value)} className={inputClass} type='text' />
+                    <input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className={inputClass}
+                        type='text'
+                    />
                 </div>
                 <div>
                     <label htmlFor=''>Category:</label>
-                    <select onChange={e => setCategory(e.target.value)} className={inputClass} name='' id=''>
+                    <select onChange={(e) => setCategory(e.target.value)} className={inputClass} name='' id=''>
                         {linkBlog.map(
                             (item, index) =>
                                 index !== 0 && (
